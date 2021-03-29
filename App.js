@@ -3,9 +3,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
 import * as firebase from "firebase";
+import { Provider } from 'react-redux'
+import { createStore,applyMiddleware } from 'redux'
+import rootReducer from '.redux/reducers'
+import thunk from 'redux-thunk'
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 import LandingScreen from "./components/auth/landing";
 import Register from "./components/auth/register";
+import MainScreen from './components/Main'
 import Login from "./components/auth/login";
 
 const Stack = createStackNavigator();
@@ -85,11 +91,11 @@ export class App extends Component {
     }
 
     return (
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <Text>Logeado!</Text>
-      </View>
+      <Provider store={store}>
+      <MainScreen/>
+      </Provider>
     );
   }
 }
 
-export default App;
+export default App
