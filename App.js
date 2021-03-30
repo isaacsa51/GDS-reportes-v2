@@ -3,12 +3,18 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
 import * as firebase from "firebase";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 
+import rootReducer from "./redux/reducers";
 import LandingScreen from "./components/auth/landing";
 import Register from "./components/auth/register";
 import Login from "./components/auth/login";
+import MainScreen from "./components/main";
 
 const Stack = createStackNavigator();
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -85,9 +91,9 @@ export class App extends Component {
     }
 
     return (
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <Text>Logeado!</Text>
-      </View>
+      <Provider store={store}>
+        <MainScreen />
+      </Provider>
     );
   }
 }
