@@ -1,23 +1,16 @@
+import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+
 import { View, Text } from "react-native";
+
 import * as firebase from "firebase";
-import "firebase/firestore";
+
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-
 import rootReducer from "./redux/reducers";
-import LandingScreen from "./components/auth/landing";
-import Register from "./components/auth/register";
-import { Main } from "./components/main";
-import Login from "./components/auth/login";
-
-const Stack = createStackNavigator();
+import thunk from "redux-thunk";
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyAB-xn51d3wTw4jNTxQZ4_seiJwTHhyVn4",
   authDomain: "reportes-v2-daf71.firebaseapp.com",
@@ -32,10 +25,22 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+import LandingScreen from "./components/auth/Landing";
+import RegisterScreen from "./components/auth/Register";
+import LoginScreen from "./components/auth/Login";
+import MainScreen from "./components/Main";
+import AddScreen from "./components/main/Add";
+import SaveScreen from "./components/main/Save";
+import CommentScreen from "./components/main/Comment";
+
+const Stack = createStackNavigator();
+
 export class App extends Component {
   constructor(props) {
-    super(props);
-
+    super();
     this.state = {
       loaded: false,
     };
@@ -56,7 +61,6 @@ export class App extends Component {
       }
     });
   }
-
   render() {
     const { loggedIn, loaded } = this.state;
     if (!loaded) {
@@ -74,18 +78,10 @@ export class App extends Component {
             <Stack.Screen
               name="Landing"
               component={LandingScreen}
-              options={{ headerShow: false }}
-            />
-            <Stack.Screen
-              name="Register"
-              component={Register}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ headerShown: false }}
-            />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       );
@@ -95,10 +91,21 @@ export class App extends Component {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Main">
+            <Stack.Screen name="Main" component={MainScreen} />
             <Stack.Screen
-              name="Main"
-              component={Main}
-              options={{ headerShown: false }}
+              name="Add"
+              component={AddScreen}
+              navigation={this.props.navigation}
+            />
+            <Stack.Screen
+              name="Save"
+              component={SaveScreen}
+              navigation={this.props.navigation}
+            />
+            <Stack.Screen
+              name="Comment"
+              component={CommentScreen}
+              navigation={this.props.navigation}
             />
           </Stack.Navigator>
         </NavigationContainer>
