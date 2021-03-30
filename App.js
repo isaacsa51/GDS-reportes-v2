@@ -10,9 +10,8 @@ import thunk from "redux-thunk";
 import rootReducer from "./redux/reducers";
 import LandingScreen from "./components/auth/landing";
 import Register from "./components/auth/register";
-import MainScreen from './components/Main'
-import Login from "./components/auth/login";
 import MainScreen from "./components/main";
+import Login from "./components/auth/login";
 
 const Stack = createStackNavigator();
 const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -99,4 +98,4 @@ export class App extends Component {
   }
 }
 
-export default App
+export default App;
