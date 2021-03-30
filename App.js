@@ -10,7 +10,7 @@ import thunk from "redux-thunk";
 import rootReducer from "./redux/reducers";
 import LandingScreen from "./components/auth/landing";
 import Register from "./components/auth/register";
-import MainScreen from "./components/main";
+import MainScreen, { Main } from "./components/main";
 import Login from "./components/auth/login";
 
 const Stack = createStackNavigator();
@@ -92,7 +92,15 @@ export class App extends Component {
 
     return (
       <Provider store={store}>
-        <MainScreen />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Main">
+            <Stack.Screen
+              name="Main"
+              component={Main}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       </Provider>
     );
   }
