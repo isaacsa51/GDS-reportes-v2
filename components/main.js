@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import { View, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
-
+import React, { Component } from "react";
+import firebase from "firebase";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchUser } from "../redux/actions";
+import { fetchUser } from "../redux/actions/index";
 import Feed from "./main/feed";
 import Profile from "./main/profile";
 import Add from "./main/add";
@@ -17,6 +16,10 @@ export class Main extends Component {
   }
 
   render() {
+    const { currentUser } = this.props;
+
+    console.log(currentUser);
+
     return (
       <Tab.Navigator>
         <Tab.Screen

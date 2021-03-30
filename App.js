@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
 import * as firebase from "firebase";
+import "firebase/firestore";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
@@ -10,7 +11,7 @@ import thunk from "redux-thunk";
 import rootReducer from "./redux/reducers";
 import LandingScreen from "./components/auth/landing";
 import Register from "./components/auth/register";
-import MainScreen, { Main } from "./components/main";
+import { Main } from "./components/main";
 import Login from "./components/auth/login";
 
 const Stack = createStackNavigator();
