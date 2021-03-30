@@ -1,0 +1,2 @@
+#ignore actions/index causing errors
+redux/actions/index.js
