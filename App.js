@@ -17,8 +17,8 @@ const firebaseConfig = {
   projectId: "reportes-v2-daf71",
   storageBucket: "reportes-v2-daf71.appspot.com",
   messagingSenderId: "951223084149",
-  appId: "1:951223084149:web:35b305e55af81a8db2443c",
-  measurementId: "G-NKCPKKFFJ6",
+  appId: "1:951223084149:web:e2009ddb5e664a06b2443c",
+  measurementId: "G-YJEWZX4F80",
 };
 
 if (firebase.apps.length === 0) {
