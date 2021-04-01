@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  Text,
 } from "react-native";
 import { AntDesign } from "react-native-vector-icons";
 
@@ -124,7 +125,12 @@ export class Register extends Component {
             />
           </View>
 
-          <Button onPress={() => this.onSignUp()} title="Sign Up" />
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => this.onSignUp()}
+          >
+            <Text style={styles.buttonText}>Registrarse</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     );
@@ -200,29 +206,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
   },
-  buttonContainer: {
-    marginTop: 50,
-    width: "100%",
-    height: 800 / 15,
-    backgroundColor: "#2c76cc",
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 3,
-  },
-  buttonText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#ffffff",
-  },
-  buttonContainerSocial: {
-    marginTop: 10,
-    width: "100%",
-    height: 800 / 15,
-    padding: 10,
-    flexDirection: "row",
-    borderRadius: 3,
-  },
+
   iconWrapper: {
     width: 30,
     justifyContent: "center",
@@ -236,9 +220,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
+  buttonContainer: {
+    marginTop: 10,
+    width: "100%",
+    height: 800 / 15,
+    backgroundColor: "#000",
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 3,
+  },
   buttonText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
+    color: "#ffffff",
   },
 });
 

@@ -1,10 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
-
-import { View, Text } from "react-native";
-
+import { View, Text, ActivityIndicator } from "react-native";
 import * as firebase from "firebase";
-
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./redux/reducers";
@@ -65,8 +62,10 @@ export class App extends Component {
     const { loggedIn, loaded } = this.state;
     if (!loaded) {
       return (
-        <View style={{ flex: 1, justifyContent: "center" }}>
-          <Text>Loading</Text>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignContent: "center" }}
+        >
+          <ActivityIndicator size="large" />
         </View>
       );
     }
@@ -74,12 +73,7 @@ export class App extends Component {
     if (!loggedIn) {
       return (
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Landing">
-            <Stack.Screen
-              name="Landing"
-              component={LandingScreen}
-              options={{ headerShown: false }}
-            />
+          <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Register" component={RegisterScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
           </Stack.Navigator>
