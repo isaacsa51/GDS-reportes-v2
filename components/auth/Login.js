@@ -39,7 +39,14 @@ export class Login extends Component {
   render() {
     return (
       <ScrollView>
-        <View style={{ marginHorizontal: 20, marginVertical: 30 }}>
+        <View
+          style={{
+            marginHorizontal: 20,
+            marginVertical: 30,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           {/* Email form */}
           <View style={styles.inputContainer}>
             <View style={styles.iconStyle}>
@@ -70,12 +77,36 @@ export class Login extends Component {
             />
           </View>
 
+          {/* Pass olvidada */}
+          <View style={{ marginBottom: 30 }}>
+            <TouchableOpacity
+              style={styles.forgotButton}
+              onPress={() => this.props.navigation.navigate("Register")}
+            >
+              <Text style={styles.navButtonText}>
+                Se me olvido la contraseña...
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Botón para iniciar sesión */}
           <TouchableOpacity
             onPress={() => this.onSignUp()}
             style={styles.buttonContainer}
           >
             <Text style={styles.buttonText}>Iniciar sesión</Text>
           </TouchableOpacity>
+
+          <View style={{ marginTop: 15 }}>
+            <TouchableOpacity
+              style={styles.forgotButton}
+              onPress={() => this.props.navigation.navigate("Register")}
+            >
+              <Text style={styles.navButtonText}>
+                No tienes cuenta? Registrate...
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     );
@@ -94,23 +125,11 @@ const styles = StyleSheet.create({
     width: 150,
     resizeMode: "cover",
   },
-  text: {
-    fontSize: 55,
-    fontWeight: "bold",
-    marginTop: 10,
-    marginBottom: 25,
-    color: "#112d4d",
-  },
   navButton: {
     marginTop: 15,
   },
   forgotButton: {
     marginVertical: 10,
-  },
-  navButtonText: {
-    fontSize: 18,
-    fontWeight: "500",
-    color: "#2c76cc",
   },
   inputContainer: {
     marginTop: 5,
@@ -151,7 +170,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
   },
-
   iconWrapper: {
     width: 30,
     justifyContent: "center",
@@ -165,7 +183,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   buttonContainer: {
     marginTop: 10,
     width: "100%",
@@ -180,6 +197,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#ffffff",
+  },
+  forgotButton: {
+    marginVertical: 15,
+  },
+  navButtonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#7b7b7b",
   },
 });
 
