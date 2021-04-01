@@ -1,6 +1,5 @@
-import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, StatusBar } from "react-native";
 import * as firebase from "firebase";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -25,13 +24,13 @@ if (firebase.apps.length === 0) {
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import LandingScreen from "./components/auth/Landing";
 import RegisterScreen from "./components/auth/Register";
 import LoginScreen from "./components/auth/Login";
 import MainScreen from "./components/Main";
 import AddScreen from "./components/main/Add";
 import SaveScreen from "./components/main/Save";
 import CommentScreen from "./components/main/Comment";
+import MapScreen from "./components/main/Map";
 
 const Stack = createStackNavigator();
 
@@ -65,6 +64,7 @@ export class App extends Component {
         <View
           style={{ flex: 1, justifyContent: "center", alignContent: "center" }}
         >
+          <StatusBar barStyle="light-content" />
           <ActivityIndicator size="large" />
         </View>
       );
@@ -72,19 +72,25 @@ export class App extends Component {
 
     if (!loggedIn) {
       return (
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Register" component={RegisterScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <View>
+          <StatusBar barStyle="light-content" />
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Login">
+              <Stack.Screen name="Register" component={RegisterScreen} />
+              <Stack.Screen name="Login" component={LoginScreen} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </View>
       );
     }
 
     return (
       <Provider store={store}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Main">
+          <Stack.Navigator
+            initialRouteName="Main"
+            screenOptions={{ headerShown: false }}
+          >
             <Stack.Screen name="Main" component={MainScreen} />
             <Stack.Screen
               name="Add"
@@ -99,6 +105,11 @@ export class App extends Component {
             <Stack.Screen
               name="Comment"
               component={CommentScreen}
+              navigation={this.props.navigation}
+            />
+            <Stack.Screen
+              name="Mapa"
+              component={MapScreen}
               navigation={this.props.navigation}
             />
           </Stack.Navigator>
