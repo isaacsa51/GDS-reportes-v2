@@ -116,7 +116,7 @@ function Feed(props, { navigation }) {
 
                 {/* Bottom Container */}
                 <View style={styles.bottomContainer}>
-                  <Text style={styles.tituloPost}>asdf</Text>
+                  <Text style={styles.tituloPost}>{item.user.name}</Text>
                   <Text style={styles.descPost}>asdf</Text>
 
                   <View style={styles.btmCategories}>
