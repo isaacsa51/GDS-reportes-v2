@@ -31,6 +31,7 @@ import AddScreen from "./components/main/Add";
 import SaveScreen from "./components/main/Save";
 import CommentScreen from "./components/main/Comment";
 import MapScreen from "./components/main/Map";
+import PostLocation from "./components/main/PostLocation";
 
 const Stack = createStackNavigator();
 
@@ -110,6 +111,11 @@ export class App extends Component {
             <Stack.Screen
               name="Mapa"
               component={MapScreen}
+              navigation={this.props.navigation}
+            />
+            <Stack.Screen
+              name="PostLocation"
+              component={PostLocation}
               navigation={this.props.navigation}
             />
           </Stack.Navigator>
