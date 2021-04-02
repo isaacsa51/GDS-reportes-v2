@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "instagram",
-    "slug": "instagram",
+    "name": "GDS-reportes-test",
+    "slug": "gds-reportes-test",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,6 +21,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Prueba del proyecto",
+    "githubUrl": "https://github.com/isaacsa51/GDS-reportes-v2"
   }
 }

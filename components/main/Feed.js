@@ -7,13 +7,14 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
-  Button,
 } from "react-native";
 import {
   AntDesign,
   SimpleLineIcons,
   Ionicons,
+  MaterialCommunityIcons,
 } from "react-native-vector-icons";
+
 import firebase from "firebase";
 require("firebase/firestore");
 import { connect } from "react-redux";
@@ -62,6 +63,10 @@ function Feed(props, { navigation }) {
         <FlatList
           numColumns={1}
           horizontal={false}
+          showsVerticalScrollIndicator={false}
+          snapToInterval={Dimensions.get("window").height - 54}
+          snapToAlignment={"start"}
+          decelerationRate={"fast"}
           data={posts}
           renderItem={({ item }) => (
             <View style={styles.container}>
@@ -79,16 +84,17 @@ function Feed(props, { navigation }) {
                     }
                   >
                     <AntDesign name={"message1"} size={42} color={"white"} />
-                    <Text style={styles.sideStats}>123</Text>
                   </TouchableOpacity>
 
                   {item.currentUserLike ? (
-                    <AntDesign
-                      name={"heart"}
-                      size={42}
-                      color={"#d32f2f"}
-                      onPress={() => onDislikePress(item.user.uid, item.id)}
-                    />
+                    <View>
+                      <AntDesign
+                        name={"heart"}
+                        size={42}
+                        color={"#d32f2f"}
+                        onPress={() => onDislikePress(item.user.uid, item.id)}
+                      />
+                    </View>
                   ) : (
                     <AntDesign
                       name={"hearto"}
@@ -102,7 +108,9 @@ function Feed(props, { navigation }) {
                     style={styles.sideStats}
                     onPress={() => {
                       props.navigation.navigate("PostLocation", {
-                        //Enviar data del post
+                        // Enviar datos del reporte
+                        // postLat: post.location.latitude,
+                        // postLong: post.location.longitude,
                       });
                     }}
                   >
@@ -116,12 +124,22 @@ function Feed(props, { navigation }) {
 
                 {/* Bottom Container */}
                 <View style={styles.bottomContainer}>
-                  <Text style={styles.tituloPost}>{item.user.name}</Text>
-                  <Text style={styles.descPost}>asdf</Text>
+                  <Text style={styles.tituloPost}>
+                    {item.user.name} {item.user.lastName}
+                  </Text>
+                  <Text style={styles.descPost}>{item.caption}</Text>
 
                   <View style={styles.btmCategories}>
                     <Ionicons name={"md-business"} size={22} color="white" />
-                    <Text style={styles.categoria}>asdf</Text>
+                    <Text style={styles.categoria}>empresa</Text>
+
+                    <MaterialCommunityIcons
+                      style={{ marginLeft: 15 }}
+                      name={"comment-question-outline"}
+                      size={22}
+                      color="white"
+                    />
+                    <Text style={styles.categoria}>status</Text>
                   </View>
                 </View>
               </View>
@@ -136,7 +154,7 @@ function Feed(props, { navigation }) {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: Dimensions.get("window").height - 68,
+    height: Dimensions.get("window").height - 54,
   },
   image: {
     position: "absolute",

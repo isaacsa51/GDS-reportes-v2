@@ -56,15 +56,14 @@ const Map = () => {
       />
     </SafeAreaView>
   ) : (
-    <View
+    <ActivityIndicator
+      size="large"
       style={{
         justifyContent: "center",
-        alignContent: "center",
         alignSelf: "center",
+        alignContent: "center",
       }}
-    >
-      <ActivityIndicator size="large" />
-    </View>
+    />
   );
 };
 
