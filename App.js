@@ -88,13 +88,13 @@ export class App extends Component {
             <Stack.Screen
               name="Main"
               component={MainScreen}
-              options={{ headerShown: false }}
+              options={{ headerShown: false, title: "Inicio" }}
             />
             <Stack.Screen
               name="Add"
               component={AddScreen}
               navigation={this.props.navigation}
-              options={{ headerShown: false }}
+              options={{ headerShown: false, title: "Reportar" }}
             />
             <Stack.Screen
               name="Save"
@@ -105,11 +105,13 @@ export class App extends Component {
               name="Comment"
               component={CommentScreen}
               navigation={this.props.navigation}
+              options={{ title: "Comentarios" }}
             />
             <Stack.Screen
               name="Map"
               component={MapScreen}
               navigation={this.props.navigation}
+              options={{ title: "Mapa" }}
             />
           </Stack.Navigator>
         </NavigationContainer>

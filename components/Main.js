@@ -1,6 +1,12 @@
 import React, { Component } from "react";
+import { StatusBar } from "react-native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import {
+  Feather,
+  SimpleLineIcons,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "react-native-vector-icons";
 import firebase from "firebase";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -31,13 +37,34 @@ export class Main extends Component {
   }
   render() {
     return (
-      <Tab.Navigator initialRouteName="Feed" labeled={false}>
+      <Tab.Navigator
+        initialRouteName="Feed"
+        activeColor="#f0edf6"
+        inactiveColor="#444"
+        barStyle={{ backgroundColor: "#000" }}
+        options={{
+          tabStyle: {
+            backgroundColor: "#000",
+          },
+          activeTintColor: "#fff",
+          style: {
+            borderTopWidth: 0,
+            borderTopColor: "transparent",
+            elevation: 0,
+            shadowOpacity: 0,
+            shadowOffset: {
+              height: 0,
+            },
+            shadowRadius: 0,
+          },
+        }}
+      >
         <Tab.Screen
           name="Feed"
           component={FeedScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" color={color} size={26} />
+              <Feather name={"home"} size={24} color={color} />
             ),
           }}
         />
@@ -77,7 +104,7 @@ export class Main extends Component {
           })}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="Map" color={color} size={26} />
+              <Feather name="map" size={24} color={color} />
             ),
           }}
         />
