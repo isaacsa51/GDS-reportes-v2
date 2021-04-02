@@ -7,12 +7,12 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
-  Button,
 } from "react-native";
 import {
   AntDesign,
   SimpleLineIcons,
   Ionicons,
+  MaterialCommunityIcons,
 } from "react-native-vector-icons";
 
 import firebase from "firebase";
@@ -123,12 +123,22 @@ function Feed(props) {
 
                 {/* Bottom Container */}
                 <View style={styles.bottomContainer}>
-                  <Text style={styles.tituloPost}>{item.user.name}</Text>
+                  <Text style={styles.tituloPost}>
+                    {item.user.name} {item.user.lastName}
+                  </Text>
                   <Text style={styles.descPost}>{item.caption}</Text>
 
                   <View style={styles.btmCategories}>
                     <Ionicons name={"md-business"} size={22} color="white" />
-                    <Text style={styles.categoria}>asdf</Text>
+                    <Text style={styles.categoria}>empresa</Text>
+
+                    <MaterialCommunityIcons
+                      style={{ marginLeft: 15 }}
+                      name={"comment-question-outline"}
+                      size={22}
+                      color="white"
+                    />
+                    <Text style={styles.categoria}>status</Text>
                   </View>
                 </View>
               </View>
