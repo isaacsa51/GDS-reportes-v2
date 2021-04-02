@@ -63,6 +63,10 @@ function Feed(props) {
         <FlatList
           numColumns={1}
           horizontal={false}
+          showsVerticalScrollIndicator={false}
+          snapToInterval={Dimensions.get("window").height - 54}
+          snapToAlignment={"start"}
+          decelerationRate={"fast"}
           data={posts}
           renderItem={({ item }) => (
             <View style={styles.container}>
@@ -139,7 +143,7 @@ function Feed(props) {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: Dimensions.get("window").height - 68,
+    height: Dimensions.get("window").height - 54,
   },
   image: {
     position: "absolute",
