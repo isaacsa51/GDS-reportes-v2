@@ -33,6 +33,7 @@ import SaveScreen from "./components/main/Save";
 import CommentScreen from "./components/main/Comment";
 import MapScreen from "./components/main/Map";
 import PostLocation from "./components/main/PostLocation";
+import SearchScreen from "./components/main/Search";
 
 const Stack = createStackNavigator();
 
@@ -74,6 +75,7 @@ export class App extends Component {
     if (!loggedIn) {
       return (
         <NavigationContainer>
+          <StatusBar style="light" />
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Register" component={RegisterScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
@@ -85,6 +87,7 @@ export class App extends Component {
     return (
       <Provider store={store}>
         <NavigationContainer>
+          <StatusBar style="light" />
           <Stack.Navigator initialRouteName="Main">
             <Stack.Screen
               name="Main"
@@ -107,6 +110,12 @@ export class App extends Component {
               component={CommentScreen}
               navigation={this.props.navigation}
               options={{ title: "Comentarios" }}
+            />
+            <Stack.Screen
+              name="Search"
+              component={SearchScreen}
+              navigation={this.props.navigation}
+              options={{ headerShown: true }}
             />
             <Stack.Screen
               name="Map"

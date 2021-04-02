@@ -73,6 +73,7 @@ export class Main extends Component {
           component={SearchScreen}
           navigation={this.props.navigation}
           options={{
+            headerShown: true,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="magnify" color={color} size={26} />
             ),
