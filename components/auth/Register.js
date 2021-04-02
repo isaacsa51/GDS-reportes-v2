@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   View,
-  Button,
   TextInput,
   ScrollView,
   TouchableOpacity,
@@ -9,7 +8,6 @@ import {
   Text,
 } from "react-native";
 import { AntDesign } from "react-native-vector-icons";
-
 import firebase from "firebase";
 import "firebase/firestore";
 
@@ -30,6 +28,7 @@ export class Register extends Component {
 
   onSignUp() {
     const { email, password, name, lastName, phone } = this.state;
+
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -45,9 +44,11 @@ export class Register extends Component {
             phone,
           });
         console.log(result);
+        alert("Cuenta creada con éxito!");
       })
       .catch((error) => {
         console.log(error);
+        alert(error);
       });
   }
 

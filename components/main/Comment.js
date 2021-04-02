@@ -104,10 +104,6 @@ function Comment(props) {
         </View>
       </Modal>
 
-      <View style={styles.header}>
-        <Text styles={{ fontWeight: "bold", fontSize: 22 }}>Comentarios</Text>
-      </View>
-
       <FlatList
         numColumns={1}
         horizontal={false}

@@ -24,14 +24,15 @@ if (firebase.apps.length === 0) {
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import RegisterScreen from './components/auth/Register';
-import LoginScreen from './components/auth/Login';
-import MainScreen from './components/Main';
-import AddScreen from './components/main/Add';
-import SaveScreen from './components/main/Save';
-import CommentScreen from './components/main/Comment';
-import MapScreen from './components/main/Map';
-import PostLocation from './components/main/PostLocation';
+import RegisterScreen from "./components/auth/Register";
+import LoginScreen from "./components/auth/Login";
+import MainScreen from "./components/Main";
+import AddScreen from "./components/main/Add";
+import SaveScreen from "./components/main/Save";
+import CommentScreen from "./components/main/Comment";
+import MapScreen from "./components/main/Map";
+import PostLocation from "./components/main/PostLocation";
+import SearchScreen from "./components/main/Search";
 
 const Stack = createStackNavigator();
 
@@ -69,35 +70,67 @@ export class App extends Component {
 			);
 		}
 
-		if (!loggedIn) {
-			return (
-				<View>
-					<StatusBar barStyle="light-content" />
-					<NavigationContainer>
-						<Stack.Navigator initialRouteName="Login">
-							<Stack.Screen name="Register" component={RegisterScreen} />
-							<Stack.Screen name="Login" component={LoginScreen} />
-						</Stack.Navigator>
-					</NavigationContainer>
-				</View>
-			);
-		}
+    if (!loggedIn) {
+      return (
+        <NavigationContainer>
+          <StatusBar style="light" />
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      );
+    }
 
-		return (
-			<Provider store={store}>
-				<NavigationContainer>
-					<Stack.Navigator initialRouteName="Main" screenOptions={{ headerShown: false }}>
-						<Stack.Screen name="Main" component={MainScreen} />
-						<Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation} />
-						<Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation} />
-						<Stack.Screen name="Comment" component={CommentScreen} navigation={this.props.navigation} />
-						<Stack.Screen name="Mapa" component={MapScreen} navigation={this.props.navigation} />
-						<Stack.Screen name="PostLocation" component={PostLocation} navigation={this.props.navigation} />
-					</Stack.Navigator>
-				</NavigationContainer>
-			</Provider>
-		);
-	}
+    return (
+      <Provider store={store}>
+        <NavigationContainer>
+          <StatusBar style="light" />
+          <Stack.Navigator initialRouteName="Main">
+            <Stack.Screen
+              name="Main"
+              component={MainScreen}
+              options={{ headerShown: false, title: "Inicio" }}
+            />
+            <Stack.Screen
+              name="Add"
+              component={AddScreen}
+              navigation={this.props.navigation}
+              options={{ headerShown: false, title: "Reportar" }}
+            />
+            <Stack.Screen
+              name="Save"
+              component={SaveScreen}
+              navigation={this.props.navigation}
+            />
+            <Stack.Screen
+              name="Comment"
+              component={CommentScreen}
+              navigation={this.props.navigation}
+              options={{ title: "Comentarios" }}
+            />
+            <Stack.Screen
+              name="Search"
+              component={SearchScreen}
+              navigation={this.props.navigation}
+              options={{ headerShown: true }}
+            />
+            <Stack.Screen
+              name="Map"
+              component={MapScreen}
+              navigation={this.props.navigation}
+              options={{ title: "Mapa" }}
+            />
+            <Stack.Screen
+              name="PostLocation"
+              component={PostLocation}
+              navigation={this.props.navigation}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    );
+  }
 }
 
 export default App;
