@@ -80,16 +80,17 @@ function Feed(props) {
                     }
                   >
                     <AntDesign name={"message1"} size={42} color={"white"} />
-                    <Text style={styles.sideStats}>123</Text>
                   </TouchableOpacity>
 
                   {item.currentUserLike ? (
-                    <AntDesign
-                      name={"heart"}
-                      size={42}
-                      color={"#d32f2f"}
-                      onPress={() => onDislikePress(item.user.uid, item.id)}
-                    />
+                    <View>
+                      <AntDesign
+                        name={"heart"}
+                        size={42}
+                        color={"#d32f2f"}
+                        onPress={() => onDislikePress(item.user.uid, item.id)}
+                      />
+                    </View>
                   ) : (
                     <AntDesign
                       name={"hearto"}
@@ -118,8 +119,8 @@ function Feed(props) {
 
                 {/* Bottom Container */}
                 <View style={styles.bottomContainer}>
-                  <Text style={styles.tituloPost}>asdf</Text>
-                  <Text style={styles.descPost}>asdf</Text>
+                  <Text style={styles.tituloPost}>{item.user.name}</Text>
+                  <Text style={styles.descPost}>{item.caption}</Text>
 
                   <View style={styles.btmCategories}>
                     <Ionicons name={"md-business"} size={22} color="white" />
