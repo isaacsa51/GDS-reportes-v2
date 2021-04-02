@@ -60,7 +60,7 @@ export class Main extends Component {
         }}
       >
         <Tab.Screen
-          name="Feed"
+          name="Inicio"
           component={FeedScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
@@ -69,7 +69,7 @@ export class Main extends Component {
           }}
         />
         <Tab.Screen
-          name="Search"
+          name="Buscar"
           component={SearchScreen}
           navigation={this.props.navigation}
           options={{
@@ -79,7 +79,7 @@ export class Main extends Component {
           }}
         />
         <Tab.Screen
-          name="AddContainer"
+          name="Reportar"
           component={EmptyScreen}
           listeners={({ navigation }) => ({
             tabPress: (event) => {
@@ -94,7 +94,7 @@ export class Main extends Component {
           }}
         />
         <Tab.Screen
-          name="Map"
+          name="Mapa"
           component={MapScreen}
           listeners={({ navigation }) => ({
             tabPress: (event) => {
@@ -120,6 +120,7 @@ export class Main extends Component {
             },
           })}
           options={{
+            title: "Perfil",
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="account-circle"
