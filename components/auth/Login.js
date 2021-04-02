@@ -33,10 +33,21 @@ export class Login extends Component {
       })
       .catch((error) => {
         console.log(error);
+        alert(error);
       });
   }
 
+  state = {
+    modalVisible: false,
+  };
+
+  setModalVisible = (visible) => {
+    this.setState({ modalVisible: visible });
+  };
+
   render() {
+    const { modalVisible } = this.state;
+
     return (
       <ScrollView>
         <View
