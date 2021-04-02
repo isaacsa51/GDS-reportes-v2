@@ -19,7 +19,7 @@ import firebase from "firebase";
 require("firebase/firestore");
 import { connect } from "react-redux";
 
-function Feed(props) {
+function Feed(props, { navigation }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -107,9 +107,10 @@ function Feed(props) {
                   <TouchableOpacity
                     style={styles.sideStats}
                     onPress={() => {
-                      navigation.navigate("PostLocation", {
-                        postLat: post.location.latitude,
-                        postLong: post.location.longitude,
+                      props.navigation.navigate("PostLocation", {
+                        // Enviar datos del reporte
+                        // postLat: post.location.latitude,
+                        // postLong: post.location.longitude,
                       });
                     }}
                   >
