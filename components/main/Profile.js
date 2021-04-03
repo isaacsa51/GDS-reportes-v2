@@ -81,7 +81,7 @@ function Profile(props) {
 		return <View />;
 	}
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container}>
 			<StatusBar style="light" />
 			<View
 				style={{
@@ -231,7 +231,7 @@ function Profile(props) {
 				<Text
 					style={{
 						textTransform: 'uppercase',
-						fontSize: '15',
+						fontSize: 15,
 						opacity: 0.45,
 						fontWeight: 'bold',
 					}}
@@ -250,7 +250,7 @@ function Profile(props) {
 					</View>
 				)}
 			/>
-		</View>
+		</ScrollView>
 	);
 }
 
