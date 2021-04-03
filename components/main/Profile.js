@@ -81,7 +81,7 @@ function Profile(props) {
 		return <View />;
 	}
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container}>
 			<StatusBar style="light" />
 			<View
 				style={{
@@ -250,7 +250,7 @@ function Profile(props) {
 					</View>
 				)}
 			/>
-		</View>
+		</ScrollView>
 	);
 }
 
