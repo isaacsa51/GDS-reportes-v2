@@ -114,7 +114,7 @@ function Profile(props) {
 										padding: 10,
 										borderRadius: 5,
 										borderWidth: 1.5,
-										borderColor: '#aaa',
+										borderColor: '#4c9e3d',
 									}}
 									onPress={() => onUnfollow()}
 								>
@@ -142,7 +142,7 @@ function Profile(props) {
 										justifyContent: 'center',
 										borderRadius: 5,
 										borderWidth: 1.5,
-										borderColor: '#aaa',
+										borderColor: '#999',
 										width: '100%',
 										padding: 10,
 										borderRadius: 5,
@@ -171,14 +171,12 @@ function Profile(props) {
 								alignSelf: 'center',
 								flexDirection: 'row',
 								justifyContent: 'center',
-								backgroundColor: '#fff',
 								width: '100%',
 								padding: 20,
-								shadowColor: '#101010',
-								shadowOffset: { width: 2, height: 3 },
-								shadowOpacity: 0.2,
-								shadowRadius: 5,
-								elevation: 10,
+								borderColor: '#000',
+								backgroundColor: '#fff',
+								borderWidth: 2,
+								color: '#000',
 								borderRadius: 5,
 							}}
 							onPress={() => alert('me da amsiedad, tamos trabajando en eso:(')}
@@ -193,23 +191,20 @@ function Profile(props) {
 								alignSelf: 'center',
 								flexDirection: 'row',
 								justifyContent: 'center',
-								backgroundColor: '#c42525',
+								borderWidth: 2,
+								borderColor: '#c42525',
+								backgroundColor: '#fff',
 								width: '100%',
 								padding: 20,
-								shadowColor: '#101010',
-								shadowOffset: { width: 2, height: 3 },
-								shadowOpacity: 0.2,
-								shadowRadius: 5,
-								elevation: 10,
 								borderRadius: 5,
 								marginTop: 10,
 							}}
 							onPress={() => onLogout()}
 						>
-							<MaterialCommunityIcons name="logout" size={24} color="#fff" />
+							<MaterialCommunityIcons name="logout" size={24} color="#c42525" />
 							<Text
 								style={{
-									color: '#fff',
+									color: '#c42525',
 									fontWeight: 'bold',
 									fontSize: 18,
 									marginLeft: 6,
