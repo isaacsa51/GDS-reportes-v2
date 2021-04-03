@@ -91,7 +91,6 @@ function Profile(props) {
 					height: 150,
 				}}
 			/>
-
 			<View style={{ alignItems: 'center', justifyContent: 'center' }}>
 				<FontAwesome name="user-circle-o" size={150} color="#454545" style={{ marginTop: -75, zIndex: 2 }} />
 				<FontAwesome name="circle" size={180} color="#fff" style={{ marginTop: -165, zIndex: 1 }} />
@@ -100,7 +99,6 @@ function Profile(props) {
 				</Text>
 				<Text style={{ fontSize: 18, fontStyle: 'italic', opacity: 0.6 }}>{user.email}</Text>
 			</View>
-
 			<View style={styles.containerInfo}>
 				{props.route.params.uid !== firebase.auth().currentUser.uid ? (
 					<View>
@@ -224,42 +222,39 @@ function Profile(props) {
 				)}
 			</View>
 
-			<View style={styles.containerGallery}>
-				<View
+			<View
+				style={{
+					justifyContent: 'center',
+					alignItems: 'center',
+					borderBottomColor: '#000',
+					borderBottomWidth: 2,
+					paddingTop: 10,
+					padding: 6,
+					marginBottom: 1,
+				}}
+			>
+				<Text
 					style={{
-						justifyContent: 'center',
-						alignItems: 'center',
-						borderBottomColor: '#000',
-						borderBottomWidth: 2,
-						paddingTop: 10,
-						padding: 6,
+						textTransform: 'uppercase',
+						fontSize: '15',
+						opacity: 0.45,
+						fontWeight: 'bold',
 					}}
 				>
-					<Text
-						style={{
-							textTransform: 'uppercase',
-							fontSize: '15',
-							opacity: 0.45,
-							fontWeight: 'bold',
-						}}
-					>
-						Reportes grabados
-					</Text>
-				</View>
-
-				<FlatList
-					numColumns={3}
-					horizontal={false}
-					data={userPosts}
-					renderItem={({ item }) => (
-						<View>
-							<View style={styles.containerImage}>
-								<Image style={styles.image} source={{ uri: item.downloadURL }} />
-							</View>
-						</View>
-					)}
-				/>
+					Reportes grabados
+				</Text>
 			</View>
+
+			<FlatList
+				numColumns={3}
+				horizontal={false}
+				data={userPosts}
+				renderItem={({ item }) => (
+					<View style={styles.containerImage}>
+						<Image style={styles.image} source={{ uri: item.downloadURL }} />
+					</View>
+				)}
+			/>
 		</View>
 	);
 }
