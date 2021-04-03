@@ -231,7 +231,7 @@ function Profile(props) {
 				<Text
 					style={{
 						textTransform: 'uppercase',
-						fontSize: '15',
+						fontSize: 15,
 						opacity: 0.45,
 						fontWeight: 'bold',
 					}}

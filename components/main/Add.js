@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Text, View, Button, Image, TouchableOpacity, Modal } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 
 export default function Add({ navigation }) {
+	const camRef = useRef(null);
 	const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
 	const [hasCameraPermission, setHasCameraPermission] = useState(null);
 	const [camera, setCamera] = useState(null);
@@ -14,6 +15,8 @@ export default function Add({ navigation }) {
 	const [type, setType] = useState(Camera.Constants.Type.back);
 	const [location, setLocation] = useState(null);
 	const [errorMsg, setErrorMsg] = useState(null);
+	const [recording, setRecording] = useState(false);
+	const [videoCapturado, setVideoCapturado] = useState(null);
 
 	// Get location
 	useEffect(() => {
@@ -37,8 +40,6 @@ export default function Add({ navigation }) {
 		text = 'Ubicación localizada, ya puede grabar su reporte...';
 	}
 
-	console.log(location);
-
 	useEffect(() => {
 		(async () => {
 			const cameraStatus = await Camera.requestPermissionsAsync();
@@ -55,6 +56,23 @@ export default function Add({ navigation }) {
 			setImage(data.uri);
 		}
 	};
+
+	async function recordVideo() {
+		let video;
+
+		if (!recording) {
+			setRecording(true);
+			const options = { quality: '720p', maxDuration: 30 };
+			video = await camRef.current.recodAsync(options);
+
+			setVideoCapturado(video.uri);
+			//setAbrirModal(true);
+			console.log(video.uri);
+		} else {
+			setRecording(false);
+			camRef.current.stopRecording();
+		}
+	}
 
 	const pickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
