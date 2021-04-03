@@ -34,7 +34,7 @@ export default function Add({ navigation }) {
 	const [recording, setRecording] = useState(false);
 	const [videoCapturado, setVideoCapturado] = useState(null);
 	const [titulo, setTitulo] = useState('');
-	const [descripcion, setDescripcion] = useState('');
+	const [caption, setCaption] = useState('');
 	const [abrirModal, setAbrirModal] = useState(false);
 
 	// Get location
@@ -142,7 +142,7 @@ export default function Add({ navigation }) {
 			downloadURL,
 			value,
 			titulo,
-			descripcion,
+			caption,
 			status: 'pendiente',
 			likesCount: 0,
 			location,
@@ -276,7 +276,7 @@ export default function Add({ navigation }) {
 										multiline
 										numberOfLines={2}
 										underlineColorAndroid={'transparent'}
-										onChangeText={(descripcion) => setDescripcion(descripcion)}
+										onChangeText={(caption) => setCaption(caption)}
 									/>
 								</View>
 
