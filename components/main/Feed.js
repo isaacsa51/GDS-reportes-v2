@@ -110,7 +110,7 @@ function Feed(props, { navigation }) {
 
 									<View style={styles.btmCategories}>
 										<Ionicons name={'md-business'} size={22} color="white" />
-										<Text style={styles.categoria}>empresa</Text>
+										<Text style={styles.categoria}>{item.value}</Text>
 
 										<MaterialCommunityIcons
 											style={{ marginLeft: 15 }}
@@ -118,7 +118,17 @@ function Feed(props, { navigation }) {
 											size={22}
 											color="white"
 										/>
-										<Text style={styles.categoria}>status</Text>
+										<Text
+											style={{
+												color: 'white',
+												fontSize: 16,
+												marginLeft: 5,
+												fontWeight: 'bold',
+												fontStyle: 'italic',
+											}}
+										>
+											{item.status}
+										</Text>
 									</View>
 								</View>
 							</View>
@@ -170,7 +180,6 @@ const styles = StyleSheet.create({
 	categoria: {
 		color: 'white',
 		fontSize: 16,
-		fontWeight: '300',
 		marginLeft: 5,
 	},
 
