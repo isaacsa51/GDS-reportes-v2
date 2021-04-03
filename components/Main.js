@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { StatusBar } from "react-native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import {
   Feather,
+  AntDesign,
   SimpleLineIcons,
   Ionicons,
   MaterialCommunityIcons,
@@ -75,7 +75,7 @@ export class Main extends Component {
           options={{
             headerShown: true,
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="magnify" color={color} size={26} />
+              <AntDesign name="search1" color={color} size={24} />
             ),
           }}
         />
@@ -90,7 +90,7 @@ export class Main extends Component {
           })}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="plus-box" color={color} size={26} />
+              <MaterialCommunityIcons name="plus-box" color={color} size={28} />
             ),
           }}
         />
@@ -105,7 +105,7 @@ export class Main extends Component {
           })}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Feather name="map" size={24} color={color} />
+              <Feather name="map" size={22} color={color} />
             ),
           }}
         />
@@ -123,11 +123,7 @@ export class Main extends Component {
           options={{
             title: "Perfil",
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="account-circle"
-                color={color}
-                size={26}
-              />
+              <AntDesign name="user" color={color} size={24} />
             ),
           }}
         />
