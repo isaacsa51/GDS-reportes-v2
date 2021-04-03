@@ -15,9 +15,14 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
+import firebase from 'firebase';
+
+require('firebase/firestore');
+require('firebase/firebase-storage');
 
 export default function Add({ navigation }) {
 	const camRef = useRef(null);
+	const [value, setValue] = useState('');
 	const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
 	const [hasCameraPermission, setHasCameraPermission] = useState(null);
 	const [camera, setCamera] = useState(null);
@@ -28,6 +33,8 @@ export default function Add({ navigation }) {
 	const [errorMsg, setErrorMsg] = useState(null);
 	const [recording, setRecording] = useState(false);
 	const [videoCapturado, setVideoCapturado] = useState(null);
+	const [titulo, setTitulo] = useState('');
+	const [descripcion, setDescripcion] = useState('');
 	const [abrirModal, setAbrirModal] = useState(false);
 
 	// Get location
@@ -99,6 +106,48 @@ export default function Add({ navigation }) {
 		if (!result.cancelled) {
 			setImage(result.uri);
 		}
+	};
+
+	// SUBIR IMAGEN A FIREBASE
+	const uploadImage = async () => {
+		const photo = image;
+		const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`;
+		console.log(childPath);
+
+		const response = await fetch(photo);
+		const blob = await response.blob();
+
+		const task = firebase.storage().ref().child(childPath).put(blob);
+
+		const taskProgress = (snapshot) => {
+			console.log(`transferred: ${snapshot.bytesTransferred}`);
+		};
+
+		const taskCompleted = () => {
+			task.snapshot.ref.getDownloadURL().then((snapshot) => {
+				savePostData(snapshot);
+				console.log(snapshot);
+			});
+		};
+
+		const taskError = (snapshot) => {
+			console.log(snapshot);
+		};
+
+		task.on('state_changed', taskProgress, taskError, taskCompleted);
+	};
+
+	const savePostData = (downloadURL) => {
+		firebase.firestore().collection('posts').doc(firebase.auth().currentUser.uid).collection('userPosts').add({
+			downloadURL,
+			value,
+			titulo,
+			descripcion,
+			status: 'pendiente',
+			likesCount: 0,
+			location,
+			creation: firebase.firestore.FieldValue.serverTimestamp(),
+		});
 	};
 
 	if (hasCameraPermission === null || hasGalleryPermission === false) {
@@ -218,6 +267,7 @@ export default function Add({ navigation }) {
 										style={styles.inputReport}
 										placeholder="Titulo del reporte"
 										underlineColorAndroid={'transparent'}
+										onChangeText={(titulo) => setTitulo(titulo)}
 									/>
 
 									<TextInput
@@ -226,6 +276,7 @@ export default function Add({ navigation }) {
 										multiline
 										numberOfLines={2}
 										underlineColorAndroid={'transparent'}
+										onChangeText={(descripcion) => setDescripcion(descripcion)}
 									/>
 								</View>
 
@@ -237,22 +288,20 @@ export default function Add({ navigation }) {
 											style={{ ...styles.aceptarVideoBtn }}
 											onPress={() => {
 												setAbrirModal(false);
-
-												// Enviar datos al JSON correspondiente
-												sendInfoToJSON(videoCapturado);
+												uploadImage();
 											}}
 										>
 											<Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Aceptar</Text>
 										</TouchableHighlight>
 
-										<TouchableHighlight
+										<TouchableOpacity
 											style={{ ...styles.cancelarVideoBtn }}
 											onPress={() => {
 												setAbrirModal(false);
 											}}
 										>
 											<Text style={{ color: '#c42525', fontWeight: 'bold', fontSize: 16 }}>Cancelar</Text>
-										</TouchableHighlight>
+										</TouchableOpacity>
 									</View>
 								</View>
 							</View>
@@ -356,6 +405,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 40,
 	},
 	cancelarVideoBtn: {
+		marginLeft: 10,
 		backgroundColor: 'white',
 		padding: 10,
 	},
