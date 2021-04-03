@@ -95,6 +95,9 @@ function Feed(props, { navigation }) {
 												// Enviar datos del reporte
 												postLat: item.location.coords.latitude,
 												postLong: item.location.coords.longitude,
+												titulo: item.titulo,
+												descripcion: item.caption,
+												empresa: item.value,
 											});
 										}}
 									>
