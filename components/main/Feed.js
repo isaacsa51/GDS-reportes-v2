@@ -40,6 +40,7 @@ function Feed(props, { navigation }) {
 			.doc(firebase.auth().currentUser.uid)
 			.delete();
 	};
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.containerGallery}>
@@ -92,8 +93,8 @@ function Feed(props, { navigation }) {
 										onPress={() => {
 											props.navigation.navigate('PostLocation', {
 												// Enviar datos del reporte
-												// postLat: post.location.latitude,
-												// postLong: post.location.longitude,
+												postLat: item.location.coords.latitude,
+												postLong: item.location.coords.longitude,
 											});
 										}}
 									>
