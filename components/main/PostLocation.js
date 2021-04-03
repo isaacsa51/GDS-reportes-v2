@@ -9,7 +9,7 @@ export default function PostLocation({ route }) {
 	// Abrir Google Maps / Apple Maps en el lugar indicado
 	const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
 	const latLng = `${postLat},${postLong}`;
-	const label = 'Titulo del reporte';
+	const label = titulo;
 	const url = Platform.select({
 		ios: `${scheme}${label}@${latLng}`,
 		android: `${scheme}${latLng}(${label})`,
