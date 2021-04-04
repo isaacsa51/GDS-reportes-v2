@@ -176,7 +176,7 @@ export default function Add({ navigation }) {
 				>
 					<Ionicons
 						style={{ marginRight: 40, paddingBottom: 10, color: 'white' }}
-						name="ios-reverse-camera"
+						name="camera-reverse"
 						size={38}
 						color="white"
 					/>
