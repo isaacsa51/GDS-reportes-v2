@@ -66,16 +66,16 @@ const Map = (props) => {
 				loadingEnabled={true}
 				showsUserLocation={true}
 				region={currentPosition}
-				markers={reports.map((marker) => {
-					return (
-						<Marker
-							key={marker.titulo}
-							description={marker.caption}
-							coordinate={{ latitude: marker.location.coords.latitude, longitude: marker.location.coords.longitude }}
-						/>
-					);
-				})}
-			/>
+			>
+				{reports.map((marker, index) => (
+					<Marker
+						key={index}
+						coordinate={{ latitude: marker.location.coords.latitude, longitude: marker.location.coords.longitude }}
+						title={marker.title}
+						description={marker.caption}
+					/>
+				))}
+			</MapView>
 		</SafeAreaView>
 	) : (
 		<ActivityIndicator
