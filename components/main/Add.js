@@ -1,26 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Image,
-  TouchableOpacity,
-  Modal,
-  TextInput,
-  TouchableHighlight,
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, TouchableHighlight } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import firebase from 'firebase';
-
+import { connect } from 'react-redux';
 require('firebase/firestore');
 require('firebase/firebase-storage');
 
-export default function Add({ navigation }) {
+function Add(props) {
   const camRef = useRef(null);
   const [value, setValue] = useState('');
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -36,6 +26,9 @@ export default function Add({ navigation }) {
   const [titulo, setTitulo] = useState('');
   const [caption, setCaption] = useState('');
   const [abrirModal, setAbrirModal] = useState(false);
+  const [empresas, setEmpresas] = useState([]);
+
+  let arrEmpresas = [];
 
   // Get location
   useEffect(() => {
@@ -56,7 +49,7 @@ export default function Add({ navigation }) {
   if (errorMsg) {
     text = errorMsg;
   } else if (location) {
-    text = 'Ubicación localizada, ya puede grabar su reporte...';
+    text = 'Ubicación localizada, ya puede reportar...';
   }
 
   useEffect(() => {
@@ -156,6 +149,7 @@ export default function Add({ navigation }) {
   if (hasCameraPermission === false || hasGalleryPermission === false) {
     return <Text>No access to camera</Text>;
   }
+
   return (
     <View style={{ flex: 1 }}>
       <Camera ref={(ref) => setCamera(ref)} style={styles.fixedRatio} type={type} />
@@ -225,16 +219,16 @@ export default function Add({ navigation }) {
 
                 <DropDownPicker
                   items={[
-                    { label: 'angellist', value: 'angellist' },
-                    { label: 'codepen', value: 'codepen' },
-                    { label: 'envelope', value: 'envelope' },
-                    { label: 'etsy', value: 'etsy' },
-                    { label: 'facebook', value: 'faceboo' },
-                    { label: 'foursquare', value: 'foursquare' },
-                    { label: 'github-alt', value: 'github-alt' },
-                    { label: 'github', value: 'github' },
-                    { label: 'gitlab', value: 'gitlab' },
-                    { label: 'instagram', value: 'instagrama' },
+                    { label: 'CFE', value: 'CFE' },
+                    { label: 'Jumapam', value: 'Jumapam' },
+                    { label: 'Megacable', value: 'Megacable' },
+                    { label: 'TELMEX', value: 'TELMEX' },
+                    { label: 'Gobierno Municipal', value: 'Gobierno Municipal' },
+                    { label: 'Protección Civil', value: 'Protección Civil' },
+                    {
+                      label: 'H. Cuerpo Voluntario de Bomberos De Mazatlán',
+                      value: 'H. Cuerpo Voluntario de Bomberos De Mazatlán',
+                    },
                     {
                       label: 'Selecciona una empresa',
                       value: 'placeholder',
@@ -256,11 +250,29 @@ export default function Add({ navigation }) {
                   dropDownMaxHeight={400}
                   onChangeItem={(item) => setValue(item.value)}
                   searchable={true}
-                  searchablePlaceholder="Busca una ciudad"
-                  searchablePlaceholderTextColor="gray"
+                  searchablePlaceholder="Buscar empresas..."
+                  searchablePlaceholderTextColor="#aaa"
                   searchableError={() => <Text>No existe una empresa con ese nombre</Text>}
                 />
-
+                {/* <DropDownPicker */}
+                {/*   items={empresas} */}
+                {/*   containerStyle={{ height: 40, alignSelf: 'stretch', marginBottom: 10 }} */}
+                {/*   style={{ backgroundColor: '#fafafa', alignSelf: 'center' }} */}
+                {/*   itemStyle={{ */}
+                {/*     justifyContent: 'flex-start', */}
+                {/*   }} */}
+                {/*   labelStyle={{ */}
+                {/*     textAlign: 'center', */}
+                {/*   }} */}
+                {/*   selectedLabelStyle={{ color: '#000000' }} */}
+                {/*   dropDownStyle={{ backgroundColor: '#fafafa' }} */}
+                {/*   dropDownMaxHeight={400} */}
+                {/*   onChangeItem={(item) => setValue(item.value)} */}
+                {/*   searchable={true} */}
+                {/*   searchablePlaceholder="Busca una ciudad" */}
+                {/*   searchablePlaceholderTextColor="gray" */}
+                {/*   searchableError={() => <Text>No existe una empresa con ese nombre</Text>} */}
+                {/* /> */}
                 {/* TextInputs to specify which title and categories has */}
                 <View styles={styles.reportForms}>
                   <TextInput
@@ -279,7 +291,6 @@ export default function Add({ navigation }) {
                     onChangeText={(caption) => setCaption(caption)}
                   />
                 </View>
-
                 {/* View to organize the buttons */}
                 <View style={styles.modalBotones}>
                   {/* Cancel button */}
@@ -309,24 +320,6 @@ export default function Add({ navigation }) {
           </View>
         </Modal>
       )}
-
-      {/*
-			<View style={styles.cameraContainer}>
-				<Camera ref={(ref) => setCamera(ref)} style={styles.fixedRatio} type={type} ratio={'1:1'} />
-			</View>
-
-			<Button
-				title="Flip Image"
-				onPress={() => {
-					setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back);
-				}}
-			></Button>
-			<Button title="Take Picture" onPress={() => takePicture()} />
-			<Button title="Pick Image From Gallery" onPress={() => pickImage()} />
-			<Button title="Save" onPress={() => navigation.navigate('Save', { image })} />
-
-			{image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
-            */}
     </View>
   );
 }
@@ -431,3 +424,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
 });
+
+const mapStateToProps = (store) => ({
+  empresas: store.empresasState.add,
+});
+
+export default connect(mapStateToProps, null)(Add);
