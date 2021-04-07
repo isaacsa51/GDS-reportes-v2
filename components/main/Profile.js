@@ -245,6 +245,7 @@ function Profile(props) {
         numColumns={3}
         horizontal={false}
         data={userPosts}
+        style={{ marginBottom: 20 }}
         renderItem={({ item }) => (
           <View style={styles.containerImage}>
             <View>
