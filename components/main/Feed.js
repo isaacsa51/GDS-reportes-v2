@@ -66,7 +66,7 @@ function Feed(props, { navigation }) {
                   style={styles.image}
                   source={{ uri: item.downloadURL }}
                   isLooping
-                  isMuted={!muted}
+                  isMuted={muted}
                   rate={1.0}
                   resizeMode="cover"
                   shouldPlay={!paused}
