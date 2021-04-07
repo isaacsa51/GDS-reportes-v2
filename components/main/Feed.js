@@ -129,27 +129,31 @@ function Feed(props, { navigation }) {
                   </Text>
                   <Text style={styles.descPost}>{item.caption}</Text>
 
-                  <View style={styles.btmCategories}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <MaterialCommunityIcons name={'calendar-clock'} size={22} color="white" />
+                    <Text style={styles.categoria}>
+                      {new Date(item.creation.seconds * 1000 + item.creation.nanoseconds / 1000).toLocaleDateString()}
+                    </Text>
+
+                    <View style={{ flexDirection: 'row', marginLeft: 5 }}>
+                      <MaterialCommunityIcons name={'comment-question-outline'} size={22} color="white" />
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: 16,
+                          marginLeft: 5,
+                          fontWeight: 'bold',
+                          fontStyle: 'italic',
+                        }}
+                      >
+                        {item.status}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View style={{ flexDirection: 'row' }}>
                     <Ionicons name={'md-business'} size={22} color="white" />
                     <Text style={styles.categoria}>{item.value}</Text>
-
-                    <MaterialCommunityIcons
-                      style={{ marginLeft: 15 }}
-                      name={'comment-question-outline'}
-                      size={22}
-                      color="white"
-                    />
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: 16,
-                        marginLeft: 5,
-                        fontWeight: 'bold',
-                        fontStyle: 'italic',
-                      }}
-                    >
-                      {item.status}
-                    </Text>
                   </View>
                 </View>
               </View>
@@ -194,13 +198,10 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     marginBottom: 5,
   },
-  btmCategories: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   categoria: {
     color: 'white',
     fontSize: 16,
+    alignSelf: 'center',
     marginLeft: 5,
   },
 
