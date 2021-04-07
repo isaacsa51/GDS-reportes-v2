@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { Video } from 'expo-av';
 import { AntDesign, SimpleLineIcons, Ionicons, MaterialCommunityIcons } from 'react-native-vector-icons';
-
 import firebase from 'firebase';
 require('firebase/firestore');
 import { connect } from 'react-redux';
 
 function Feed(props, { navigation }) {
   const [posts, setPosts] = useState([]);
+  const [paused, setPaused] = useState(false);
+  const [muted, setMuted] = useState(false);
 
   useEffect(() => {
     if (props.usersFollowingLoaded == props.following.length && props.following.length !== 0) {
@@ -41,6 +43,11 @@ function Feed(props, { navigation }) {
       .delete();
   };
 
+  const handlePlayPause = () => {
+    setPaused(!paused);
+    setMuted(!muted);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.containerGallery}>
@@ -54,7 +61,17 @@ function Feed(props, { navigation }) {
           data={posts}
           renderItem={({ item }) => (
             <View style={styles.container}>
-              <Image style={styles.image} source={{ uri: item.downloadURL }} />
+              <TouchableWithoutFeedback onPress={handlePlayPause}>
+                <Video
+                  style={styles.image}
+                  source={{ uri: item.downloadURL }}
+                  isLooping
+                  isMuted={muted}
+                  rate={1.0}
+                  resizeMode="cover"
+                  shouldPlay={!paused}
+                />
+              </TouchableWithoutFeedback>
 
               <View style={styles.uiContainer}>
                 <View style={styles.rightContainer}>
