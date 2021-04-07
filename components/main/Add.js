@@ -3,18 +3,19 @@ import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, TouchableHi
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
+import { Video } from 'expo-av';
 require('firebase/firestore');
 require('firebase/firebase-storage');
 
-function Add(props) {
+function Add() {
   const camRef = useRef(null);
   const [value, setValue] = useState('');
-  const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
-  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+  const [hasPermission, setHaspermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const [image, setImage] = useState(null);
@@ -26,7 +27,6 @@ function Add(props) {
   const [titulo, setTitulo] = useState('');
   const [caption, setCaption] = useState('');
   const [abrirModal, setAbrirModal] = useState(false);
-  const [empresas, setEmpresas] = useState([]);
 
   let arrEmpresas = [];
 
@@ -52,13 +52,21 @@ function Add(props) {
     text = 'Ubicación localizada, ya puede reportar...';
   }
 
+  // Permisos del uso de la camara e ImagePicker
+
   useEffect(() => {
     (async () => {
-      const cameraStatus = await Camera.requestPermissionsAsync();
-      setHasCameraPermission(cameraStatus.status === 'granted');
+      const { status } = await Camera.requestPermissionsAsync();
+      setHaspermission(status === 'granted');
+    })();
 
-      const galleryStatus = await ImagePicker.requestCameraRollPermissionsAsync();
-      setHasGalleryPermission(galleryStatus.status === 'granted');
+    (async () => {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      setHaspermission(status === 'granted');
+    })();
+    (async () => {
+      const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+      setHaspermission(status === 'granted');
     })();
   }, []);
 
@@ -76,14 +84,13 @@ function Add(props) {
     if (!recording) {
       setRecording(true);
       const options = { quality: '720p', maxDuration: 30 };
-      video = await camRef.current.recodAsync(options);
-
+      video = await camera.recordAsync(options);
       setVideoCapturado(video.uri);
-      //setAbrirModal(true);
+      setAbrirModal(true);
       console.log(video.uri);
     } else {
       setRecording(false);
-      camRef.current.stopRecording();
+      camera.stopRecording();
     }
   }
 
@@ -130,6 +137,35 @@ function Add(props) {
     task.on('state_changed', taskProgress, taskError, taskCompleted);
   };
 
+  // SUBIR VIDEO A FIREBASE
+  const uploadVideo = async () => {
+    const video = videoCapturado;
+    const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`;
+    console.log(childPath);
+
+    const response = await fetch(video);
+    const blob = await response.blob();
+
+    const task = firebase.storage().ref().child(childPath).put(blob);
+
+    const taskProgress = (snapshot) => {
+      console.log(`transferred: ${snapshot.bytesTransferred}`);
+    };
+
+    const taskCompleted = () => {
+      task.snapshot.ref.getDownloadURL().then((snapshot) => {
+        savePostData(snapshot);
+        console.log(snapshot);
+      });
+    };
+
+    const taskError = (snapshot) => {
+      console.log(snapshot);
+    };
+
+    task.on('state_changed', taskProgress, taskError, taskCompleted);
+  };
+
   const savePostData = (downloadURL) => {
     firebase.firestore().collection('posts').doc(firebase.auth().currentUser.uid).collection('userPosts').add({
       downloadURL,
@@ -141,13 +177,31 @@ function Add(props) {
       location,
       creation: firebase.firestore.FieldValue.serverTimestamp(),
     });
+
+    // DECIR AL USUARIO QUE YA PUEDE SALIR YA QUE SE SUBIÓ EL REPORTE
   };
 
-  if (hasCameraPermission === null || hasGalleryPermission === false) {
-    return <View />;
+  const getCompanies = () => {
+    firebase
+      .firestore()
+      .collection('empresas')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          return arrEmpresas.push(doc.data().nombre);
+        });
+      });
+  };
+
+  if (hasPermission === null) {
+    return (
+      <View>
+        <Text style={{ color: 'red' }}>HOLAAAA</Text>
+      </View>
+    );
   }
-  if (hasCameraPermission === false || hasGalleryPermission === false) {
-    return <Text>No access to camera</Text>;
+  if (hasPermission === false) {
+    return <Text>Acceso denegado!</Text>;
   }
 
   return (
@@ -199,8 +253,12 @@ function Add(props) {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity stlye={styles.grabar} onPress={() => takePicture()}>
-          <Ionicons style={{ marginBottom: 10, color: '#ef3340' }} name="ios-radio-button-on" size={100} />
+        <TouchableOpacity stlye={styles.grabar} onPress={recordVideo}>
+          <Ionicons
+            style={{ marginBottom: 10, color: '#ef3340' }}
+            name={recording ? 'ios-square' : 'ios-radio-button-on'}
+            size={100}
+          />
         </TouchableOpacity>
 
         <Text style={{ color: 'white' }}>
@@ -210,7 +268,8 @@ function Add(props) {
 
         <Text style={{ marginTop: 10, fontSize: 14, color: 'white' }}>Explicanos en 30 segundos que sucede...</Text>
       </View>
-      {image && (
+
+      {videoCapturado && (
         <Modal animationType="slide" transparent={true} visible={abrirModal}>
           <View style={{ flex: 1 }}>
             <View style={styles.centeredView}>
@@ -254,25 +313,7 @@ function Add(props) {
                   searchablePlaceholderTextColor="#aaa"
                   searchableError={() => <Text>No existe una empresa con ese nombre</Text>}
                 />
-                {/* <DropDownPicker */}
-                {/*   items={empresas} */}
-                {/*   containerStyle={{ height: 40, alignSelf: 'stretch', marginBottom: 10 }} */}
-                {/*   style={{ backgroundColor: '#fafafa', alignSelf: 'center' }} */}
-                {/*   itemStyle={{ */}
-                {/*     justifyContent: 'flex-start', */}
-                {/*   }} */}
-                {/*   labelStyle={{ */}
-                {/*     textAlign: 'center', */}
-                {/*   }} */}
-                {/*   selectedLabelStyle={{ color: '#000000' }} */}
-                {/*   dropDownStyle={{ backgroundColor: '#fafafa' }} */}
-                {/*   dropDownMaxHeight={400} */}
-                {/*   onChangeItem={(item) => setValue(item.value)} */}
-                {/*   searchable={true} */}
-                {/*   searchablePlaceholder="Busca una ciudad" */}
-                {/*   searchablePlaceholderTextColor="gray" */}
-                {/*   searchableError={() => <Text>No existe una empresa con ese nombre</Text>} */}
-                {/* /> */}
+
                 {/* TextInputs to specify which title and categories has */}
                 <View styles={styles.reportForms}>
                   <TextInput
@@ -299,7 +340,7 @@ function Add(props) {
                       style={{ ...styles.aceptarVideoBtn }}
                       onPress={() => {
                         setAbrirModal(false);
-                        uploadImage();
+                        uploadVideo();
                       }}
                     >
                       <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Aceptar</Text>
