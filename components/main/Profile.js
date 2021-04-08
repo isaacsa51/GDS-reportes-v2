@@ -178,31 +178,11 @@ function Profile(props) {
                   alignSelf: 'center',
                   flexDirection: 'row',
                   justifyContent: 'center',
-                  width: '100%',
-                  padding: 20,
-                  borderColor: '#000',
-                  backgroundColor: '#fff',
-                  borderWidth: 2,
-                  color: '#000',
-                  borderRadius: 5,
-                }}
-                onPress={() => alert('me da amsiedad, tamos trabajando en eso:(')}
-              >
-                <MaterialCommunityIcons name="account-edit" size={24} color="#000" />
-                <Text style={{ fontWeight: 'bold', fontSize: 18, marginLeft: 6 }}>Editar perfil</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={{
-                  marginHorizontal: 5,
-                  alignSelf: 'center',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
                   borderWidth: 2,
                   borderColor: '#c42525',
                   backgroundColor: '#fff',
                   width: '100%',
-                  padding: 20,
+                  padding: 10,
                   borderRadius: 5,
                   marginTop: 10,
                 }}
