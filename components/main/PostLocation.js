@@ -48,7 +48,7 @@ export default function PostLocation({ route }) {
           <TouchableOpacity onPress={() => Linking.openURL(url)}>
             <Text
               style={{
-                color: 'white',
+                color: '#fff',
                 fontSize: 18,
                 fontWeight: 'bold',
                 fontStyle: 'italic',
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginTop: Platform.OS === 'ios' ? 40 : 20,
     flexDirection: 'row',
-    backgroundColor: '#000',
+    backgroundColor: '#4F8D41',
     width: '90%',
     justifyContent: 'center',
     alignSelf: 'center',

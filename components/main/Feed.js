@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Dimensions,
+  TouchableWithoutFeedback,
+  SafeAreaView,
+} from 'react-native';
+import { Video } from 'expo-av';
 import { AntDesign, SimpleLineIcons, Ionicons, MaterialCommunityIcons } from 'react-native-vector-icons';
-
 import firebase from 'firebase';
 require('firebase/firestore');
 import { connect } from 'react-redux';
 
 function Feed(props, { navigation }) {
   const [posts, setPosts] = useState([]);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     if (props.usersFollowingLoaded == props.following.length && props.following.length !== 0) {
@@ -41,8 +51,12 @@ function Feed(props, { navigation }) {
       .delete();
   };
 
+  const handlePlayPause = () => {
+    setPaused(!paused);
+  };
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.containerGallery}>
         <FlatList
           numColumns={1}
@@ -54,7 +68,17 @@ function Feed(props, { navigation }) {
           data={posts}
           renderItem={({ item }) => (
             <View style={styles.container}>
-              <Image style={styles.image} source={{ uri: item.downloadURL }} />
+              <TouchableWithoutFeedback onPress={handlePlayPause}>
+                <Video
+                  style={styles.image}
+                  source={{ uri: item.downloadURL }}
+                  isLooping
+                  isMuted={true}
+                  rate={1.0}
+                  resizeMode="cover"
+                  shouldPlay={!paused}
+                />
+              </TouchableWithoutFeedback>
 
               <View style={styles.uiContainer}>
                 <View style={styles.rightContainer}>
@@ -112,27 +136,31 @@ function Feed(props, { navigation }) {
                   </Text>
                   <Text style={styles.descPost}>{item.caption}</Text>
 
-                  <View style={styles.btmCategories}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <MaterialCommunityIcons name={'calendar-clock'} size={22} color="white" />
+                    <Text style={styles.categoria}>
+                      {new Date(item.creation.seconds * 1000 + item.creation.nanoseconds / 1000).toLocaleDateString()}
+                    </Text>
+
+                    <View style={{ flexDirection: 'row', marginLeft: 5 }}>
+                      <MaterialCommunityIcons name={'comment-question-outline'} size={22} color="white" />
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: 16,
+                          marginLeft: 5,
+                          fontWeight: 'bold',
+                          fontStyle: 'italic',
+                        }}
+                      >
+                        {item.status}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View style={{ flexDirection: 'row' }}>
                     <Ionicons name={'md-business'} size={22} color="white" />
                     <Text style={styles.categoria}>{item.value}</Text>
-
-                    <MaterialCommunityIcons
-                      style={{ marginLeft: 15 }}
-                      name={'comment-question-outline'}
-                      size={22}
-                      color="white"
-                    />
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: 16,
-                        marginLeft: 5,
-                        fontWeight: 'bold',
-                        fontStyle: 'italic',
-                      }}
-                    >
-                      {item.status}
-                    </Text>
                   </View>
                 </View>
               </View>
@@ -140,7 +168,7 @@ function Feed(props, { navigation }) {
           )}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -177,13 +205,10 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     marginBottom: 5,
   },
-  btmCategories: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   categoria: {
     color: 'white',
     fontSize: 16,
+    alignSelf: 'center',
     marginLeft: 5,
   },
 
