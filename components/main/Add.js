@@ -24,6 +24,7 @@ require('firebase/firebase-storage');
 function Add() {
   const camRef = useRef(null);
   const [value, setValue] = useState('');
+  const [empresas, setEmpresas] = useState([]);
   const [hasPermission, setHaspermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
@@ -37,8 +38,6 @@ function Add() {
   const [caption, setCaption] = useState('');
   const [abrirModal, setAbrirModal] = useState(false);
   const [aviso, setAviso] = useState(false);
-
-  let arrEmpresas = [];
 
   // Get location
   useEffect(() => {
@@ -189,18 +188,6 @@ function Add() {
 
     // DECIR AL USUARIO QUE YA PUEDE SALIR YA QUE SE SUBIÓ EL REPORTE
     setAviso(true);
-  };
-
-  const getCompanies = () => {
-    firebase
-      .firestore()
-      .collection('empresas')
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          return arrEmpresas.push(doc.data().nombre);
-        });
-      });
   };
 
   if (hasPermission === null) {
