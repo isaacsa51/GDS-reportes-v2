@@ -45,6 +45,33 @@ export class Register extends Component {
     return (
       <ScrollView>
         <View style={{ marginHorizontal: 20, marginVertical: 30 }}>
+          <Text
+            style={{
+              fontSize: 28,
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+              color: '#2D4728',
+              alignSelf: 'center',
+              alignContent: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            Registro de usuario
+          </Text>
+          <Text
+            style={{
+              fontSize: 12,
+              opacity: 0.5,
+              fontStyle: 'italic',
+              marginBottom: 20,
+              justifyContent: 'center',
+              alignSelf: 'center',
+              alignContent: 'center',
+            }}
+          >
+            Al registrarse acepta los términos y condiciones.
+          </Text>
+
           <View style={styles.inputContainer}>
             <View style={styles.iconStyle}>
               <AntDesign name="user" size={25} color="#666" />
