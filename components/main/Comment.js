@@ -94,7 +94,7 @@ function Comment(props) {
             <Text style={styles.modalText}>Comentario publicado!</Text>
 
             <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+              style={{ ...styles.openButton, backgroundColor: '#4F8D41' }}
               onPress={() => {
                 setModalVisible(!modalVisible);
               }}

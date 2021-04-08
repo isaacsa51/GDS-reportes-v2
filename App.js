@@ -8,75 +8,75 @@ import thunk from 'redux-thunk';
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyAB-xn51d3wTw4jNTxQZ4_seiJwTHhyVn4',
-	authDomain: 'reportes-v2-daf71.firebaseapp.com',
-	projectId: 'reportes-v2-daf71',
-	storageBucket: 'reportes-v2-daf71.appspot.com',
-	messagingSenderId: '951223084149',
-	appId: '1:951223084149:web:e2009ddb5e664a06b2443c',
-	measurementId: 'G-YJEWZX4F80',
+  apiKey: 'AIzaSyAB-xn51d3wTw4jNTxQZ4_seiJwTHhyVn4',
+  authDomain: 'reportes-v2-daf71.firebaseapp.com',
+  projectId: 'reportes-v2-daf71',
+  storageBucket: 'reportes-v2-daf71.appspot.com',
+  messagingSenderId: '951223084149',
+  appId: '1:951223084149:web:e2009ddb5e664a06b2443c',
+  measurementId: 'G-YJEWZX4F80',
 };
 
 if (firebase.apps.length === 0) {
-	firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 }
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import RegisterScreen from "./components/auth/Register";
-import LoginScreen from "./components/auth/Login";
-import MainScreen from "./components/Main";
-import AddScreen from "./components/main/Add";
-import SaveScreen from "./components/main/Save";
-import CommentScreen from "./components/main/Comment";
-import MapScreen from "./components/main/Map";
-import PostLocation from "./components/main/PostLocation";
-import SearchScreen from "./components/main/Search";
+import RegisterScreen from './components/auth/Register';
+import LoginScreen from './components/auth/Login';
+import MainScreen from './components/Main';
+import AddScreen from './components/main/Add';
+import SaveScreen from './components/main/Save';
+import CommentScreen from './components/main/Comment';
+import MapScreen from './components/main/Map';
+import PostLocation from './components/main/PostLocation';
+import SearchScreen from './components/main/Search';
 
 const Stack = createStackNavigator();
 
 export class App extends Component {
-	constructor(props) {
-		super();
-		this.state = {
-			loaded: false,
-		};
-	}
+  constructor(props) {
+    super();
+    this.state = {
+      loaded: false,
+    };
+  }
 
-	componentDidMount() {
-		firebase.auth().onAuthStateChanged((user) => {
-			if (!user) {
-				this.setState({
-					loggedIn: false,
-					loaded: true,
-				});
-			} else {
-				this.setState({
-					loggedIn: true,
-					loaded: true,
-				});
-			}
-		});
-	}
-	render() {
-		const { loggedIn, loaded } = this.state;
-		if (!loaded) {
-			return (
-				<View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
-					<StatusBar barStyle="light-content" />
-					<ActivityIndicator size="large" />
-				</View>
-			);
-		}
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        this.setState({
+          loggedIn: false,
+          loaded: true,
+        });
+      } else {
+        this.setState({
+          loggedIn: true,
+          loaded: true,
+        });
+      }
+    });
+  }
+  render() {
+    const { loggedIn, loaded } = this.state;
+    if (!loaded) {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
+          <StatusBar barStyle="light-content" />
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
 
     if (!loggedIn) {
       return (
         <NavigationContainer>
           <StatusBar style="light" />
           <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Register" component={RegisterScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} options={{ title: 'Registrarse' }} />
+            <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Inicio de sesión' }} />
           </Stack.Navigator>
         </NavigationContainer>
       );
@@ -87,27 +87,19 @@ export class App extends Component {
         <NavigationContainer>
           <StatusBar style="light" />
           <Stack.Navigator initialRouteName="Main">
-            <Stack.Screen
-              name="Main"
-              component={MainScreen}
-              options={{ headerShown: false, title: "Inicio" }}
-            />
+            <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false, title: 'Inicio' }} />
             <Stack.Screen
               name="Add"
               component={AddScreen}
               navigation={this.props.navigation}
-              options={{ headerShown: false, title: "Reportar" }}
+              options={{ headerShown: false, title: 'Reportar' }}
             />
-            <Stack.Screen
-              name="Save"
-              component={SaveScreen}
-              navigation={this.props.navigation}
-            />
+            <Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation} />
             <Stack.Screen
               name="Comment"
               component={CommentScreen}
               navigation={this.props.navigation}
-              options={{ title: "Comentarios" }}
+              options={{ title: 'Comentarios' }}
             />
             <Stack.Screen
               name="Search"
@@ -119,12 +111,13 @@ export class App extends Component {
               name="Map"
               component={MapScreen}
               navigation={this.props.navigation}
-              options={{ title: "Mapa" }}
+              options={{ title: 'Mapa' }}
             />
             <Stack.Screen
               name="PostLocation"
               component={PostLocation}
               navigation={this.props.navigation}
+              options={{ title: 'Ubicación del reporte' }}
             />
           </Stack.Navigator>
         </NavigationContainer>

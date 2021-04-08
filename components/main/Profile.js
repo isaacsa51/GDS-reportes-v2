@@ -89,12 +89,17 @@ function Profile(props) {
           style={{
             padding: 10,
             width: '100%',
-            backgroundColor: '#000',
+            backgroundColor: '#2D4728',
             height: 150,
           }}
         />
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <FontAwesome name="user-circle-o" size={150} color="#454545" style={{ marginTop: -75, zIndex: 2 }} />
+          <FontAwesome
+            name="user-circle-o"
+            size={150}
+            color="#000"
+            style={{ marginTop: -75, zIndex: 2, opacity: 0.5 }}
+          />
           <FontAwesome name="circle" size={180} color="#fff" style={{ marginTop: -165, zIndex: 1 }} />
           <Text style={{ fontSize: 22, fontWeight: 'bold', marginTop: 4 }}>
             {user.name} {user.lastName}

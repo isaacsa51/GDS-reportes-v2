@@ -1,23 +1,16 @@
-import React, { Component } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { AntDesign } from "react-native-vector-icons";
+import React, { Component } from 'react';
+import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { AntDesign } from 'react-native-vector-icons';
 
-import firebase from "firebase";
+import firebase from 'firebase';
 
 export class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     };
 
     this.onSignUp = this.onSignUp.bind(this);
@@ -54,10 +47,23 @@ export class Login extends Component {
           style={{
             marginHorizontal: 20,
             marginVertical: 30,
-            alignItems: "center",
-            justifyContent: "center",
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
+          <Text
+            style={{
+              fontSize: 35,
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+              letterSpacing: 10,
+              color: '#2D4728',
+              marginBottom: 20,
+            }}
+          >
+            Bienvenido
+          </Text>
+
           {/* Email form */}
           <View style={styles.inputContainer}>
             <View style={styles.iconStyle}>
@@ -90,32 +96,19 @@ export class Login extends Component {
 
           {/* Pass olvidada */}
           <View style={{ marginBottom: 30 }}>
-            <TouchableOpacity
-              style={styles.forgotButton}
-              onPress={() => this.props.navigation.navigate("Register")}
-            >
-              <Text style={styles.navButtonText}>
-                Se me olvido la contraseña...
-              </Text>
+            <TouchableOpacity style={styles.forgotButton} onPress={() => this.props.navigation.navigate('Register')}>
+              <Text style={styles.navButtonText}>Se me olvido la contraseña...</Text>
             </TouchableOpacity>
           </View>
 
           {/* Botón para iniciar sesión */}
-          <TouchableOpacity
-            onPress={() => this.onSignUp()}
-            style={styles.buttonContainer}
-          >
+          <TouchableOpacity onPress={() => this.onSignUp()} style={styles.buttonContainer}>
             <Text style={styles.buttonText}>Iniciar sesión</Text>
           </TouchableOpacity>
 
           <View style={{ marginTop: 15 }}>
-            <TouchableOpacity
-              style={styles.forgotButton}
-              onPress={() => this.props.navigation.navigate("Register")}
-            >
-              <Text style={styles.navButtonText}>
-                No tienes cuenta? Registrate...
-              </Text>
+            <TouchableOpacity style={styles.forgotButton} onPress={() => this.props.navigation.navigate('Register')}>
+              <Text style={styles.navButtonText}>No tienes cuenta? Registrate...</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -126,15 +119,15 @@ export class Login extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
     paddingTop: 50,
   },
   logo: {
     height: 150,
     width: 150,
-    resizeMode: "cover",
+    resizeMode: 'cover',
   },
   navButton: {
     marginTop: 15,
@@ -145,21 +138,21 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginTop: 5,
     marginBottom: 10,
-    width: "100%",
+    width: '100%',
     height: 800 / 15,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderRadius: 3,
     borderWidth: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
   iconStyle: {
     padding: 10,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRightColor: "#ccc",
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRightColor: '#ccc',
     borderRightWidth: 1,
     width: 50,
   },
@@ -167,9 +160,9 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     fontSize: 16,
-    color: "#333",
-    justifyContent: "center",
-    alignItems: "center",
+    color: '#333',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inputField: {
     padding: 10,
@@ -183,39 +176,39 @@ const styles = StyleSheet.create({
   },
   iconWrapper: {
     width: 30,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   icon: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   btnTxtWrapper: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonContainer: {
     marginTop: 10,
-    width: "100%",
+    width: '100%',
     height: 800 / 15,
-    backgroundColor: "#000",
+    backgroundColor: '#4F8D41',
     padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 3,
   },
   buttonText: {
     fontSize: 20,
-    fontWeight: "bold",
-    color: "#ffffff",
+    fontWeight: 'bold',
+    color: '#ffffff',
   },
   forgotButton: {
     marginVertical: 15,
   },
   navButtonText: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: "#7b7b7b",
+    fontWeight: 'bold',
+    color: '#7b7b7b',
   },
 });
 

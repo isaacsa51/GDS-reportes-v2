@@ -223,7 +223,7 @@ function Add() {
             <Text style={styles.modalText}>Reporte subido con éxito!</Text>
 
             <TouchableOpacity
-              style={{ ...styles.aceptarVideoBtn, backgroundColor: '#3A9624' }}
+              style={{ ...styles.aceptarVideoBtn, backgroundColor: '#4F8D41' }}
               onPress={() => {
                 setAviso(!aviso);
               }}
@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   aceptarVideoBtn: {
-    backgroundColor: '#3A9624',
+    backgroundColor: '#4F8D41',
     fontWeight: 'bold',
     borderRadius: 3,
     padding: 10,
