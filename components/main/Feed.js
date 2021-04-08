@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 function Feed(props, { navigation }) {
   const [posts, setPosts] = useState([]);
   const [paused, setPaused] = useState(false);
-  const [muted, setMuted] = useState(false);
 
   useEffect(() => {
     if (props.usersFollowingLoaded == props.following.length && props.following.length !== 0) {
@@ -45,7 +44,6 @@ function Feed(props, { navigation }) {
 
   const handlePlayPause = () => {
     setPaused(!paused);
-    setMuted(!muted);
   };
 
   return (
@@ -66,7 +64,7 @@ function Feed(props, { navigation }) {
                   style={styles.image}
                   source={{ uri: item.downloadURL }}
                   isLooping
-                  isMuted={muted}
+                  isMuted={true}
                   rate={1.0}
                   resizeMode="cover"
                   shouldPlay={!paused}
