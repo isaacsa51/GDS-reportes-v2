@@ -1,26 +1,19 @@
-import React, { Component } from "react";
-import {
-  View,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-} from "react-native";
-import { AntDesign } from "react-native-vector-icons";
-import firebase from "firebase";
-import "firebase/firestore";
+import React, { Component } from 'react';
+import { View, TextInput, ScrollView, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { AntDesign } from 'react-native-vector-icons';
+import firebase from 'firebase';
+import 'firebase/firestore';
 
 export class Register extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: "",
-      password: "",
-      name: "",
-      lastName: "",
-      phone: "",
+      email: '',
+      password: '',
+      name: '',
+      lastName: '',
+      phone: '',
     };
 
     this.onSignUp = this.onSignUp.bind(this);
@@ -33,18 +26,14 @@ export class Register extends Component {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        firebase
-          .firestore()
-          .collection("users")
-          .doc(firebase.auth().currentUser.uid)
-          .set({
-            name,
-            lastName,
-            email,
-            phone,
-          });
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
+          name,
+          lastName,
+          email,
+          phone,
+        });
         console.log(result);
-        alert("Cuenta creada con éxito!");
+        alert('Cuenta creada con éxito!');
       })
       .catch((error) => {
         console.log(error);
@@ -56,6 +45,33 @@ export class Register extends Component {
     return (
       <ScrollView>
         <View style={{ marginHorizontal: 20, marginVertical: 30 }}>
+          <Text
+            style={{
+              fontSize: 28,
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+              color: '#2D4728',
+              alignSelf: 'center',
+              alignContent: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            Registro de usuario
+          </Text>
+          <Text
+            style={{
+              fontSize: 12,
+              opacity: 0.5,
+              fontStyle: 'italic',
+              marginBottom: 20,
+              justifyContent: 'center',
+              alignSelf: 'center',
+              alignContent: 'center',
+            }}
+          >
+            Al registrarse acepta los términos y condiciones.
+          </Text>
+
           <View style={styles.inputContainer}>
             <View style={styles.iconStyle}>
               <AntDesign name="user" size={25} color="#666" />
@@ -126,10 +142,7 @@ export class Register extends Component {
             />
           </View>
 
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={() => this.onSignUp()}
-          >
+          <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onSignUp()}>
             <Text style={styles.buttonText}>Registrarse</Text>
           </TouchableOpacity>
         </View>
@@ -140,22 +153,22 @@ export class Register extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
     paddingTop: 50,
   },
   logo: {
     height: 150,
     width: 150,
-    resizeMode: "cover",
+    resizeMode: 'cover',
   },
   text: {
     fontSize: 55,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 25,
-    color: "#112d4d",
+    color: '#112d4d',
   },
   navButton: {
     marginTop: 15,
@@ -165,27 +178,27 @@ const styles = StyleSheet.create({
   },
   navButtonText: {
     fontSize: 18,
-    fontWeight: "500",
-    color: "#2c76cc",
+    fontWeight: '500',
+    color: '#2c76cc',
   },
   inputContainer: {
     marginTop: 5,
     marginBottom: 10,
-    width: "100%",
+    width: '100%',
     height: 800 / 15,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderRadius: 3,
     borderWidth: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
   iconStyle: {
     padding: 10,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRightColor: "#ccc",
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRightColor: '#ccc',
     borderRightWidth: 1,
     width: 50,
   },
@@ -193,9 +206,9 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     fontSize: 16,
-    color: "#333",
-    justifyContent: "center",
-    alignItems: "center",
+    color: '#333',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inputField: {
     padding: 10,
@@ -210,32 +223,32 @@ const styles = StyleSheet.create({
 
   iconWrapper: {
     width: 30,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   icon: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   btnTxtWrapper: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   buttonContainer: {
     marginTop: 10,
-    width: "100%",
+    width: '100%',
     height: 800 / 15,
-    backgroundColor: "#000",
+    backgroundColor: '#4F8D41',
     padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 3,
   },
   buttonText: {
     fontSize: 20,
-    fontWeight: "bold",
-    color: "#ffffff",
+    fontWeight: 'bold',
+    color: '#ffffff',
   },
 });
 

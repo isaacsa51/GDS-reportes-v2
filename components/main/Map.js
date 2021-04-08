@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Alert,
   StyleSheet,
@@ -8,22 +8,35 @@ import {
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
-} from "react-native";
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
-import MapView from "react-native-maps";
+} from 'react-native';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
+import MapView, { Marker, Callout } from 'react-native-maps';
+import firebase from 'firebase';
+require('firebase/firestore');
+import { connect } from 'react-redux';
 
 let initialState = {
   longitude: null,
   latitude: null,
-  latitudeDelta: 0.035,
-  longitudeDelta: 0.035,
+  latitudeDelta: 0.025,
+  longitudeDelta: 0.025,
 };
 
-const Map = () => {
+const Map = (props) => {
   const [currentPosition, setCurrentPosition] = useState(initialState);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [reports, setReports] = useState([]);
+
+  useEffect(() => {
+    if (props.usersFollowingLoaded == props.following.length && props.following.length !== 0) {
+      props.feed.sort(function (x, y) {
+        return x.creation - y.creation;
+      });
+      setReports(props.feed);
+    }
+  }, [props.usersFollowingLoaded, props.feed]);
 
   // Get location
   useEffect(() => {
@@ -53,15 +66,34 @@ const Map = () => {
         loadingEnabled={true}
         showsUserLocation={true}
         region={currentPosition}
-      />
+      >
+        {reports.map((marker, index) => (
+          <Marker
+            key={index}
+            coordinate={{ latitude: marker.location.coords.latitude, longitude: marker.location.coords.longitude }}
+            title={marker.title}
+            description={marker.caption}
+          >
+            <Callout tooltip={false}>
+              <View style={{ height: '60%' }}>
+                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                  Autor: {marker.user.name} {marker.user.lastName}
+                </Text>
+                <Text style={{ fontSize: 16 }}>Titulo: {marker.caption}</Text>
+                <Text style={{ fontSize: 16, opacity: 0.5, fontStyle: 'italic' }}>Status: {marker.status}</Text>
+              </View>
+            </Callout>
+          </Marker>
+        ))}
+      </MapView>
     </SafeAreaView>
   ) : (
     <ActivityIndicator
       size="large"
       style={{
-        justifyContent: "center",
-        alignSelf: "center",
-        alignContent: "center",
+        justifyContent: 'center',
+        alignSelf: 'center',
+        alignContent: 'center',
       }}
     />
   );
@@ -72,9 +104,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   map: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
 });
 
-export default Map;
+const mapStateToProps = (store) => ({
+  currentUser: store.userState.currentUser,
+  following: store.userState.following,
+  feed: store.usersState.feed,
+  usersFollowingLoaded: store.usersState.usersFollowingLoaded,
+});
+
+export default connect(mapStateToProps, null)(Map);
