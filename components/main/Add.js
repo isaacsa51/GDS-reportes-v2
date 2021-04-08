@@ -36,6 +36,7 @@ function Add() {
   const [titulo, setTitulo] = useState('');
   const [caption, setCaption] = useState('');
   const [abrirModal, setAbrirModal] = useState(false);
+  const [aviso, setAviso] = useState(false);
 
   let arrEmpresas = [];
 
@@ -62,7 +63,6 @@ function Add() {
   }
 
   // Permisos del uso de la camara e ImagePicker
-
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
@@ -188,6 +188,7 @@ function Add() {
     });
 
     // DECIR AL USUARIO QUE YA PUEDE SALIR YA QUE SE SUBIÓ EL REPORTE
+    setAviso(true);
   };
 
   const getCompanies = () => {
@@ -215,6 +216,24 @@ function Add() {
 
   return (
     <View style={{ flex: 1 }}>
+      {/* Modal de aviso */}
+      <Modal animationType="slide" transparent={true} visible={aviso}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Reporte subido con éxito!</Text>
+
+            <TouchableOpacity
+              style={{ ...styles.aceptarVideoBtn, backgroundColor: '#3A9624' }}
+              onPress={() => {
+                setAviso(!aviso);
+              }}
+            >
+              <Text style={{ color: '#000', fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}>Aceptar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
       <Camera ref={(ref) => setCamera(ref)} style={styles.fixedRatio} type={type} />
 
       <View
@@ -441,7 +460,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   aceptarVideoBtn: {
-    backgroundColor: '#006600',
+    backgroundColor: '#3A9624',
     fontWeight: 'bold',
     borderRadius: 3,
     padding: 10,
