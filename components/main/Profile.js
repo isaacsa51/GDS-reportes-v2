@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, FlatList, ScrollView, TouchableOpacity, 
 import firebase from 'firebase';
 require('firebase/firestore');
 import { connect } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { SimpleLineIcons, MaterialCommunityIcons, FontAwesome } from 'react-native-vector-icons';
 import { StatusBar } from 'react-native';
 
@@ -10,6 +11,8 @@ function Profile(props) {
   const [userPosts, setUserPosts] = useState([]);
   const [user, setUser] = useState(null);
   const [following, setFollowing] = useState(false);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     const { currentUser, posts } = props;
@@ -172,25 +175,25 @@ function Profile(props) {
             </View>
           ) : (
             <View>
-              <TouchableOpacity
-                style={{
-                  marginHorizontal: 5,
-                  alignSelf: 'center',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  width: '100%',
-                  padding: 20,
-                  borderColor: '#000',
-                  backgroundColor: '#fff',
-                  borderWidth: 2,
-                  color: '#000',
-                  borderRadius: 5,
-                }}
-                onPress={() => alert('me da amsiedad, tamos trabajando en eso:(')}
-              >
-                <MaterialCommunityIcons name="account-edit" size={24} color="#000" />
-                <Text style={{ fontWeight: 'bold', fontSize: 18, marginLeft: 6 }}>Editar perfil</Text>
-              </TouchableOpacity>
+              {/* <TouchableOpacity */}
+              {/*   style={{ */}
+              {/*     marginHorizontal: 5, */}
+              {/*     alignSelf: 'center', */}
+              {/*     flexDirection: 'row', */}
+              {/*     justifyContent: 'center', */}
+              {/*     width: '100%', */}
+              {/*     padding: 20, */}
+              {/*     borderColor: '#000', */}
+              {/*     backgroundColor: '#fff', */}
+              {/*     borderWidth: 2, */}
+              {/*     color: '#000', */}
+              {/*     borderRadius: 5, */}
+              {/*   }} */}
+              {/*   onPress={() => navigation.navigate('Edit')} */}
+              {/* > */}
+              {/*   <MaterialCommunityIcons name="account-edit" size={24} color="#000" /> */}
+              {/*   <Text style={{ fontWeight: 'bold', fontSize: 18, marginLeft: 6 }}>Editar perfil</Text> */}
+              {/* </TouchableOpacity> */}
 
               <TouchableOpacity
                 style={{
@@ -202,7 +205,7 @@ function Profile(props) {
                   borderColor: '#c42525',
                   backgroundColor: '#fff',
                   width: '100%',
-                  padding: 20,
+                  padding: 10,
                   borderRadius: 5,
                   marginTop: 10,
                 }}
