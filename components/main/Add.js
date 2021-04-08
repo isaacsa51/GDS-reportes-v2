@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal, TextInput, TouchableHighlight } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  Text,
+  View,
+  TouchableOpacity,
+  Modal,
+  TextInput,
+  TouchableHighlight,
+} from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';

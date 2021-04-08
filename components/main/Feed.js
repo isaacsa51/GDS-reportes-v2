@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Dimensions,
+  TouchableWithoutFeedback,
+  SafeAreaView,
+} from 'react-native';
 import { Video } from 'expo-av';
 import { AntDesign, SimpleLineIcons, Ionicons, MaterialCommunityIcons } from 'react-native-vector-icons';
 import firebase from 'firebase';
@@ -47,7 +56,7 @@ function Feed(props, { navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.containerGallery}>
         <FlatList
           numColumns={1}
@@ -159,7 +168,7 @@ function Feed(props, { navigation }) {
           )}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
