@@ -23,6 +23,9 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "Prueba del proyecto",
-    "githubUrl": "https://github.com/isaacsa51/GDS-reportes-v2"
+    "githubUrl": "https://github.com/isaacsa51/GDS-reportes-v2",
+    "android": {
+      "package": "edu.mx.gds"
+    }
   }
 }

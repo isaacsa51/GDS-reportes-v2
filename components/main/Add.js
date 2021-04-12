@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -8,22 +8,22 @@ import {
   Modal,
   TextInput,
   TouchableHighlight,
-} from 'react-native';
-import { Camera } from 'expo-camera';
-import * as ImagePicker from 'expo-image-picker';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
-import DropDownPicker from 'react-native-dropdown-picker';
-import firebase from 'firebase';
-import { connect } from 'react-redux';
-import { Video } from 'expo-av';
-require('firebase/firestore');
-require('firebase/firebase-storage');
+} from "react-native";
+import { Camera } from "expo-camera";
+import * as ImagePicker from "expo-image-picker";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import DropDownPicker from "react-native-dropdown-picker";
+import firebase from "firebase";
+import { connect } from "react-redux";
+import { Video } from "expo-av";
+require("firebase/firestore");
+require("firebase/firebase-storage");
 
 function Add() {
   const camRef = useRef(null);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [empresas, setEmpresas] = useState([]);
   const [hasPermission, setHaspermission] = useState(null);
   const [camera, setCamera] = useState(null);
@@ -34,8 +34,8 @@ function Add() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [recording, setRecording] = useState(false);
   const [videoCapturado, setVideoCapturado] = useState(null);
-  const [titulo, setTitulo] = useState('');
-  const [caption, setCaption] = useState('');
+  const [titulo, setTitulo] = useState("");
+  const [caption, setCaption] = useState("");
   const [abrirModal, setAbrirModal] = useState(false);
   const [aviso, setAviso] = useState(false);
 
@@ -43,8 +43,8 @@ function Add() {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
         return;
       }
 
@@ -53,28 +53,30 @@ function Add() {
     })();
   }, []);
 
-  let text = 'Obteniendo ubicación...';
+  let text = "Obteniendo ubicación...";
 
   if (errorMsg) {
     text = errorMsg;
   } else if (location) {
-    text = 'Ubicación localizada, ya puede reportar...';
+    text = "Ubicación localizada, ya puede reportar...";
   }
 
   // Permisos del uso de la camara e ImagePicker
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
-      setHaspermission(status === 'granted');
+      setHaspermission(status === "granted");
     })();
 
     (async () => {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      setHaspermission(status === 'granted');
+      setHaspermission(status === "granted");
     })();
     (async () => {
-      const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
-      setHaspermission(status === 'granted');
+      const { status } = await Permissions.askAsync(
+        Permissions.AUDIO_RECORDING
+      );
+      setHaspermission(status === "granted");
     })();
   }, []);
 
@@ -91,7 +93,7 @@ function Add() {
 
     if (!recording) {
       setRecording(true);
-      const options = { quality: '720p', maxDuration: 30 };
+      const options = { quality: "480p", maxDuration: 30 };
       video = await camera.recordAsync(options);
       setVideoCapturado(video.uri);
       setAbrirModal(true);
@@ -119,7 +121,9 @@ function Add() {
   // SUBIR IMAGEN A FIREBASE
   const uploadImage = async () => {
     const photo = image;
-    const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`;
+    const childPath = `post/${
+      firebase.auth().currentUser.uid
+    }/${Math.random().toString(36)}`;
     console.log(childPath);
 
     const response = await fetch(photo);
@@ -142,13 +146,15 @@ function Add() {
       console.log(snapshot);
     };
 
-    task.on('state_changed', taskProgress, taskError, taskCompleted);
+    task.on("state_changed", taskProgress, taskError, taskCompleted);
   };
 
   // SUBIR VIDEO A FIREBASE
   const uploadVideo = async () => {
     const video = videoCapturado;
-    const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`;
+    const childPath = `post/${
+      firebase.auth().currentUser.uid
+    }/${Math.random().toString(36)}`;
     console.log(childPath);
 
     const response = await fetch(video);
@@ -171,20 +177,25 @@ function Add() {
       console.log(snapshot);
     };
 
-    task.on('state_changed', taskProgress, taskError, taskCompleted);
+    task.on("state_changed", taskProgress, taskError, taskCompleted);
   };
 
   const savePostData = (downloadURL) => {
-    firebase.firestore().collection('posts').doc(firebase.auth().currentUser.uid).collection('userPosts').add({
-      downloadURL,
-      value,
-      titulo,
-      caption,
-      status: 'PENDIENTE',
-      likesCount: 0,
-      location,
-      creation: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    firebase
+      .firestore()
+      .collection("posts")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("userPosts")
+      .add({
+        downloadURL,
+        value,
+        titulo,
+        caption,
+        status: "PENDIENTE",
+        likesCount: 0,
+        location,
+        creation: firebase.firestore.FieldValue.serverTimestamp(),
+      });
 
     // DECIR AL USUARIO QUE YA PUEDE SALIR YA QUE SE SUBIÓ EL REPORTE
     setAviso(true);
@@ -193,7 +204,7 @@ function Add() {
   if (hasPermission === null) {
     return (
       <View>
-        <Text style={{ color: 'red' }}>HOLAAAA</Text>
+        <Text style={{ color: "red" }}>HOLAAAA</Text>
       </View>
     );
   }
@@ -210,35 +221,52 @@ function Add() {
             <Text style={styles.modalText}>Reporte subido con éxito!</Text>
 
             <TouchableOpacity
-              style={{ ...styles.aceptarVideoBtn, backgroundColor: '#4F8D41' }}
+              style={{ ...styles.aceptarVideoBtn, backgroundColor: "#4F8D41" }}
               onPress={() => {
                 setAviso(!aviso);
               }}
             >
-              <Text style={{ color: '#000', fontWeight: 'bold', fontSize: 16, alignSelf: 'center' }}>Aceptar</Text>
+              <Text
+                style={{
+                  color: "#000",
+                  fontWeight: "bold",
+                  fontSize: 16,
+                  alignSelf: "center",
+                }}
+              >
+                Aceptar
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
 
-      <Camera ref={(ref) => setCamera(ref)} style={styles.fixedRatio} type={type} />
+      <Camera
+        ref={(ref) => setCamera(ref)}
+        style={styles.fixedRatio}
+        type={type}
+      />
 
       <View
         style={{
-          backgroundColor: '#000',
+          backgroundColor: "#000",
           flex: 0.4,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <TouchableOpacity
-          style={{ alignSelf: 'flex-end', flex: 0.1, position: 'absolute' }}
+          style={{ alignSelf: "flex-end", flex: 0.1, position: "absolute" }}
           onPress={() => {
-            setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back);
+            setType(
+              type === Camera.Constants.Type.back
+                ? Camera.Constants.Type.front
+                : Camera.Constants.Type.back
+            );
           }}
         >
           <Ionicons
-            style={{ marginRight: 40, paddingBottom: 10, color: 'white' }}
+            style={{ marginRight: 40, paddingBottom: 10, color: "white" }}
             name="camera-reverse"
             size={38}
             color="white"
@@ -248,9 +276,9 @@ function Add() {
         <TouchableOpacity
           style={{
             flex: 0.1,
-            alignSelf: 'flex-start',
-            alignItems: 'center',
-            position: 'absolute',
+            alignSelf: "flex-start",
+            alignItems: "center",
+            position: "absolute",
           }}
           onPress={() => {
             setFlash(
@@ -261,8 +289,8 @@ function Add() {
           }}
         >
           <Ionicons
-            style={{ marginLeft: 40, paddingBottom: 10, color: 'white' }}
-            name={flash ? 'ios-flash' : 'ios-flash-off'}
+            style={{ marginLeft: 40, paddingBottom: 10, color: "white" }}
+            name={flash ? "ios-flash" : "ios-flash-off"}
             size={34}
             color="white"
           />
@@ -270,18 +298,25 @@ function Add() {
 
         <TouchableOpacity stlye={styles.grabar} onPress={recordVideo}>
           <Ionicons
-            style={{ marginBottom: 10, color: '#ef3340' }}
-            name={recording ? 'ios-square' : 'ios-radio-button-on'}
+            style={{ marginBottom: 10, color: "#ef3340" }}
+            name={recording ? "ios-square" : "ios-radio-button-on"}
             size={100}
           />
         </TouchableOpacity>
 
-        <Text style={{ color: 'white' }}>
-          <Ionicons style={{ color: 'white' }} name="ios-navigate" size={15} color="white" />
-          {' ' + text}
+        <Text style={{ color: "white" }}>
+          <Ionicons
+            style={{ color: "white" }}
+            name="ios-navigate"
+            size={15}
+            color="white"
+          />
+          {" " + text}
         </Text>
 
-        <Text style={{ marginTop: 10, fontSize: 14, color: 'white' }}>Explicanos en 30 segundos que sucede...</Text>
+        <Text style={{ marginTop: 10, fontSize: 14, color: "white" }}>
+          Explicanos en 30 segundos que sucede...
+        </Text>
       </View>
 
       {videoCapturado && (
@@ -289,44 +324,57 @@ function Add() {
           <View style={{ flex: 1 }}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>Datos necesarios del reporte</Text>
+                <Text style={styles.modalText}>
+                  Datos necesarios del reporte
+                </Text>
 
                 <DropDownPicker
                   items={[
-                    { label: 'CFE', value: 'CFE' },
-                    { label: 'Jumapam', value: 'Jumapam' },
-                    { label: 'Megacable', value: 'Megacable' },
-                    { label: 'TELMEX', value: 'TELMEX' },
-                    { label: 'Gobierno Municipal', value: 'Gobierno Municipal' },
-                    { label: 'Protección Civil', value: 'Protección Civil' },
+                    { label: "CFE", value: "CFE" },
+                    { label: "Jumapam", value: "Jumapam" },
+                    { label: "Megacable", value: "Megacable" },
+                    { label: "TELMEX", value: "TELMEX" },
                     {
-                      label: 'H. Cuerpo Voluntario de Bomberos De Mazatlán',
-                      value: 'H. Cuerpo Voluntario de Bomberos De Mazatlán',
+                      label: "Gobierno Municipal",
+                      value: "Gobierno Municipal",
+                    },
+                    { label: "Protección Civil", value: "Protección Civil" },
+                    {
+                      label: "H. Cuerpo Voluntario de Bomberos De Mazatlán",
+                      value: "H. Cuerpo Voluntario de Bomberos De Mazatlán",
                     },
                     {
-                      label: 'Selecciona una empresa',
-                      value: 'placeholder',
+                      label: "Selecciona una empresa",
+                      value: "placeholder",
                       selected: true,
-                      icon: () => <FontAwesome5 name="search" size={18} color="#000" />,
+                      icon: () => (
+                        <FontAwesome5 name="search" size={18} color="#000" />
+                      ),
                       hidden: true,
                     },
                   ]}
-                  containerStyle={{ height: 40, alignSelf: 'stretch', marginBottom: 10 }}
-                  style={{ backgroundColor: '#fafafa', alignSelf: 'center' }}
+                  containerStyle={{
+                    height: 40,
+                    alignSelf: "stretch",
+                    marginBottom: 10,
+                  }}
+                  style={{ backgroundColor: "#fafafa", alignSelf: "center" }}
                   itemStyle={{
-                    justifyContent: 'flex-start',
+                    justifyContent: "flex-start",
                   }}
                   labelStyle={{
-                    textAlign: 'center',
+                    textAlign: "center",
                   }}
-                  selectedLabelStyle={{ color: '#000000' }}
-                  dropDownStyle={{ backgroundColor: '#fafafa' }}
+                  selectedLabelStyle={{ color: "#000000" }}
+                  dropDownStyle={{ backgroundColor: "#fafafa" }}
                   dropDownMaxHeight={400}
                   onChangeItem={(item) => setValue(item.value)}
                   searchable={true}
                   searchablePlaceholder="Buscar empresas..."
                   searchablePlaceholderTextColor="#aaa"
-                  searchableError={() => <Text>No existe una empresa con ese nombre</Text>}
+                  searchableError={() => (
+                    <Text>No existe una empresa con ese nombre</Text>
+                  )}
                 />
 
                 {/* TextInputs to specify which title and categories has */}
@@ -334,7 +382,7 @@ function Add() {
                   <TextInput
                     style={styles.inputReport}
                     placeholder="Titulo del reporte"
-                    underlineColorAndroid={'transparent'}
+                    underlineColorAndroid={"transparent"}
                     onChangeText={(titulo) => setTitulo(titulo)}
                   />
 
@@ -343,7 +391,7 @@ function Add() {
                     placeholder="Descripción del reporte"
                     multiline
                     numberOfLines={2}
-                    underlineColorAndroid={'transparent'}
+                    underlineColorAndroid={"transparent"}
                     onChangeText={(caption) => setCaption(caption)}
                   />
                 </View>
@@ -358,7 +406,15 @@ function Add() {
                         uploadVideo();
                       }}
                     >
-                      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Aceptar</Text>
+                      <Text
+                        style={{
+                          color: "white",
+                          fontWeight: "bold",
+                          fontSize: 16,
+                        }}
+                      >
+                        Aceptar
+                      </Text>
                     </TouchableHighlight>
 
                     <TouchableOpacity
@@ -367,7 +423,15 @@ function Add() {
                         setAbrirModal(false);
                       }}
                     >
-                      <Text style={{ color: '#c42525', fontWeight: 'bold', fontSize: 16 }}>Cancelar</Text>
+                      <Text
+                        style={{
+                          color: "#c42525",
+                          fontWeight: "bold",
+                          fontSize: 16,
+                        }}
+                      >
+                        Cancelar
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -383,7 +447,7 @@ function Add() {
 const styles = StyleSheet.create({
   cameraContainer: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   fixedRatio: {
     flex: 1,
@@ -392,43 +456,43 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#000",
+    alignItems: "center",
+    justifyContent: "center",
   },
   boton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#121212',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#121212",
     margin: 20,
     borderRadius: 10,
     height: 50,
   },
   grabar: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   fondoVisualizacon: {
     flex: 1,
   },
   accionesBotones: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     left: 0,
     bottom: 0,
   },
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 5,
     padding: 35,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -439,43 +503,43 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 22,
-    textAlign: 'center',
+    textAlign: "center",
   },
   modalBotones: {
-    alignContent: 'center',
+    alignContent: "center",
   },
   aceptarVideoBtn: {
-    backgroundColor: '#4F8D41',
-    fontWeight: 'bold',
+    backgroundColor: "#4F8D41",
+    fontWeight: "bold",
     borderRadius: 3,
     padding: 10,
     paddingHorizontal: 40,
   },
   cancelarVideoBtn: {
     marginLeft: 10,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 10,
   },
   reportForms: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
   inputReport: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
     height: 40,
     marginBottom: 12,
-    color: '#000',
-    borderColor: '#e0e0e0',
+    color: "#000",
+    borderColor: "#e0e0e0",
     borderRadius: 5,
     borderWidth: 1,
   },
   inputMultipleReport: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
     height: 65,
     marginBottom: 12,
-    color: '#000',
-    borderColor: '#e0e0e0',
+    color: "#000",
+    borderColor: "#e0e0e0",
     borderRadius: 5,
     borderWidth: 1,
   },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -8,19 +8,28 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   SafeAreaView,
-} from 'react-native';
-import { Video } from 'expo-av';
-import { AntDesign, SimpleLineIcons, Ionicons, MaterialCommunityIcons } from 'react-native-vector-icons';
-import firebase from 'firebase';
-require('firebase/firestore');
-import { connect } from 'react-redux';
+} from "react-native";
+import { Video } from "expo-av";
+import {
+  AntDesign,
+  SimpleLineIcons,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "react-native-vector-icons";
+import firebase from "firebase";
+require("firebase/firestore");
+import { connect } from "react-redux";
+import { LinearGradient } from "expo-linear-gradient";
 
 function Feed(props, { navigation }) {
   const [posts, setPosts] = useState([]);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (props.usersFollowingLoaded == props.following.length && props.following.length !== 0) {
+    if (
+      props.usersFollowingLoaded == props.following.length &&
+      props.following.length !== 0
+    ) {
       props.feed.sort(function (x, y) {
         return x.creation - y.creation;
       });
@@ -31,22 +40,22 @@ function Feed(props, { navigation }) {
   const onLikePress = (userId, postId) => {
     firebase
       .firestore()
-      .collection('posts')
+      .collection("posts")
       .doc(userId)
-      .collection('userPosts')
+      .collection("userPosts")
       .doc(postId)
-      .collection('likes')
+      .collection("likes")
       .doc(firebase.auth().currentUser.uid)
       .set({});
   };
   const onDislikePress = (userId, postId) => {
     firebase
       .firestore()
-      .collection('posts')
+      .collection("posts")
       .doc(userId)
-      .collection('userPosts')
+      .collection("userPosts")
       .doc(postId)
-      .collection('likes')
+      .collection("likes")
       .doc(firebase.auth().currentUser.uid)
       .delete();
   };
@@ -62,9 +71,9 @@ function Feed(props, { navigation }) {
           numColumns={1}
           horizontal={false}
           showsVerticalScrollIndicator={false}
-          snapToInterval={Dimensions.get('window').height - 54}
-          snapToAlignment={'start'}
-          decelerationRate={'fast'}
+          snapToInterval={Dimensions.get("window").height - 54}
+          snapToAlignment={"start"}
+          decelerationRate={"fast"}
           data={posts}
           renderItem={({ item }) => (
             <View style={styles.container}>
@@ -80,42 +89,43 @@ function Feed(props, { navigation }) {
                 />
               </TouchableWithoutFeedback>
 
+              <LinearGradient
+                colors={["transparent", "rgba(0,0,0,0.5)"]}
+                style={styles.background}
+              />
+
               <View style={styles.uiContainer}>
                 <View style={styles.rightContainer}>
                   <TouchableOpacity
                     style={styles.iconsContainer}
                     onPress={() =>
-                      props.navigation.navigate('Comment', {
+                      props.navigation.navigate("Comment", {
                         postId: item.id,
                         uid: item.user.uid,
                       })
                     }
                   >
-                    <AntDesign name={'message1'} size={42} color={'white'} />
+                    <AntDesign name={"message1"} size={42} color={"white"} />
                   </TouchableOpacity>
 
                   {item.currentUserLike ? (
-                    <View>
-                      <AntDesign
-                        name={'heart'}
-                        size={42}
-                        color={'#d32f2f'}
-                        onPress={() => onDislikePress(item.user.uid, item.id)}
-                      />
-                    </View>
+                    <TouchableOpacity
+                      onPress={() => onDislikePress(item.user.uid, item.id)}
+                    >
+                      <AntDesign name={"heart"} size={42} color={"#d32f2f"} />
+                    </TouchableOpacity>
                   ) : (
-                    <AntDesign
-                      name={'hearto'}
-                      size={42}
-                      color={'#fff'}
+                    <TouchableOpacity
                       onPress={() => onLikePress(item.user.uid, item.id)}
-                    />
+                    >
+                      <AntDesign name={"hearto"} size={42} color={"#fff"} />
+                    </TouchableOpacity>
                   )}
 
                   <TouchableOpacity
                     style={styles.sideStats}
                     onPress={() => {
-                      props.navigation.navigate('PostLocation', {
+                      props.navigation.navigate("PostLocation", {
                         // Enviar datos del reporte
                         postLat: item.location.coords.latitude,
                         postLong: item.location.coords.longitude,
@@ -125,7 +135,11 @@ function Feed(props, { navigation }) {
                       });
                     }}
                   >
-                    <SimpleLineIcons name={'location-pin'} size={40} color={'#fff'} />
+                    <SimpleLineIcons
+                      name={"location-pin"}
+                      size={40}
+                      color={"#fff"}
+                    />
                   </TouchableOpacity>
                 </View>
 
@@ -136,21 +150,32 @@ function Feed(props, { navigation }) {
                   </Text>
                   <Text style={styles.descPost}>{item.caption}</Text>
 
-                  <View style={{ flexDirection: 'row' }}>
-                    <MaterialCommunityIcons name={'calendar-clock'} size={22} color="white" />
+                  <View style={{ flexDirection: "row" }}>
+                    <MaterialCommunityIcons
+                      name={"calendar-clock"}
+                      size={22}
+                      color="white"
+                    />
                     <Text style={styles.categoria}>
-                      {new Date(item.creation.seconds * 1000 + item.creation.nanoseconds / 1000).toLocaleDateString()}
+                      {new Date(
+                        item.creation.seconds * 1000 +
+                          item.creation.nanoseconds / 1000
+                      ).toLocaleDateString()}
                     </Text>
 
-                    <View style={{ flexDirection: 'row', marginLeft: 5 }}>
-                      <MaterialCommunityIcons name={'comment-question-outline'} size={22} color="white" />
+                    <View style={{ flexDirection: "row", marginLeft: 5 }}>
+                      <MaterialCommunityIcons
+                        name={"comment-question-outline"}
+                        size={22}
+                        color="white"
+                      />
                       <Text
                         style={{
-                          color: 'white',
+                          color: "white",
                           fontSize: 16,
                           marginLeft: 5,
-                          fontWeight: 'bold',
-                          fontStyle: 'italic',
+                          fontWeight: "bold",
+                          fontStyle: "italic",
                         }}
                       >
                         {item.status}
@@ -158,8 +183,8 @@ function Feed(props, { navigation }) {
                     </View>
                   </View>
 
-                  <View style={{ flexDirection: 'row' }}>
-                    <Ionicons name={'md-business'} size={22} color="white" />
+                  <View style={{ flexDirection: "row" }}>
+                    <Ionicons name={"md-business"} size={22} color="white" />
                     <Text style={styles.categoria}>{item.value}</Text>
                   </View>
                 </View>
@@ -174,49 +199,56 @@ function Feed(props, { navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: Dimensions.get('window').height - 54,
+    width: "100%",
+    height: Dimensions.get("window").height - 54,
+  },
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: "100%",
   },
   image: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
     right: 0,
   },
   uiContainer: {
-    height: '100%',
-    justifyContent: 'flex-end',
+    height: "100%",
+    justifyContent: "flex-end",
   },
   bottomContainer: {
-    color: 'white',
+    color: "white",
     marginLeft: 5,
     marginBottom: 5,
   },
   tituloPost: {
-    color: 'white',
+    color: "white",
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 0,
   },
   descPost: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: '300',
+    fontWeight: "300",
     marginBottom: 5,
   },
   categoria: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginLeft: 5,
   },
 
   //Side container
   rightContainer: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     height: 200,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     marginRight: 3,
   },
   profilePicture: {
@@ -224,15 +256,15 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: 'white',
+    borderColor: "white",
   },
   sideStats: {
-    color: 'white',
-    alignSelf: 'center',
+    color: "white",
+    alignSelf: "center",
     fontSize: 16,
   },
   iconsContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
 });
 
