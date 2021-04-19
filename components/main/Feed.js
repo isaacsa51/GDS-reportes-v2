@@ -163,24 +163,24 @@ function Feed(props, { navigation }) {
                       ).toLocaleDateString()}
                     </Text>
 
-                    <View style={{ flexDirection: "row", marginLeft: 5 }}>
-                      <MaterialCommunityIcons
-                        name={"comment-question-outline"}
-                        size={22}
-                        color="white"
-                      />
-                      <Text
-                        style={{
-                          color: "white",
-                          fontSize: 16,
-                          marginLeft: 5,
-                          fontWeight: "bold",
-                          fontStyle: "italic",
-                        }}
-                      >
-                        {item.status}
-                      </Text>
-                    </View>
+                    {/* <View style={{ flexDirection: "row", marginLeft: 5 }}> */}
+                    {/*   <MaterialCommunityIcons */}
+                    {/*     name={"comment-question-outline"} */}
+                    {/*     size={22} */}
+                    {/*     color="white" */}
+                    {/*   /> */}
+                    {/*   <Text */}
+                    {/*     style={{ */}
+                    {/*       color: "white", */}
+                    {/*       fontSize: 16, */}
+                    {/*       marginLeft: 5, */}
+                    {/*       fontWeight: "bold", */}
+                    {/*       fontStyle: "italic", */}
+                    {/*     }} */}
+                    {/*   > */}
+                    {/*     {item.status} */}
+                    {/*   </Text> */}
+                    {/* </View> */}
                   </View>
 
                   <View style={{ flexDirection: "row" }}>

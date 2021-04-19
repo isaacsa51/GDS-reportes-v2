@@ -6,6 +6,13 @@ import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./redux/reducers";
 import thunk from "redux-thunk";
 const store = createStore(rootReducer, applyMiddleware(thunk));
+import { LogBox } from "react-native";
+
+// Ignore log notification by message:
+LogBox.ignoreLogs(["Warning: ..."]);
+
+// Ignore all log notifications:
+LogBox.ignoreAllLogs();
 
 const firebaseConfig = {
   apiKey: "AIzaSyAPShUI9Qca9QrNnzophdAJB2ra9zumlmc",
